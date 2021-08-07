@@ -1,0 +1,35 @@
+<?php
+
+/**
+ * @file
+ * Contains ajax_solr_search.module.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function ajax_solr_search_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the ajax_solr_search module.
+    case 'help.page.ajax_solr_search':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('My Awesome Module') . '</p>';
+      return $output;
+
+    default:
+  }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function ajax_solr_search_theme() {
+  return [
+    'ajax_solr_search' => [
+      'render element' => 'children',
+    ],
+  ];
+}

@@ -1,0 +1,9 @@
+ajax_solr_search.ajax_solr_search_config_form:
+  path: '/admin/config/search/ajax_solr'
+  defaults:
+    _form: '\Drupal\ajax_solr_search\Form\AjaxSolrSearchConfigForm'
+    _title: 'Ajax Solr Search Config Form'
+  requirements:
+    _permission: 'access administration pages'
+  options:
+    _admin_route: TRUE
