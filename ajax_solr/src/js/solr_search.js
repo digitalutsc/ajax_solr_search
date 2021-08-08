@@ -1,23 +1,18 @@
 
 
-(function ($, Drupal) {
+(function ($, Drupal, drupalSettings) {
   Drupal.behaviors.d8_scholarship_frontBehavior = {
     attach: function (context, settings) {
-
+      //console.log(drupalSettings.ajax_solr_search);
       $(document).ready(function() {
           var Manager;
           Manager = new AjaxSolr.Manager({
-            //solrUrl: 'https://reuters-demo.tree.ewdev.ca:9090/reuters/'
-            solrUrl: 'http://192.168.3.99:8983/solr/multisite/'
-            //solrUrl: 'http://dsu-fedora.utsc.utoronto.ca:8983/solr/multisite/'
-            // If you are using a local Solr instance with a "reuters" core, use:
-            // solrUrl: 'http://localhost:8983/solr/reuters/'
-            // If you are using a local Solr instance with a single core, use:
-            // solrUrl: 'http://localhost:8983/solr/'
+            solrUrl: (drupalSettings.ajax_solr_search.solr_url.substr(-1) !== '/') ? (drupalSettings.ajax_solr_search.solr_url + '/') : drupalSettings.ajax_solr_search.solr_url
           });
           Manager.addWidget(new AjaxSolr.ResultWidget({
             id: 'result',
             target: '#docs',
+            result_html: drupalSettings.ajax_solr_search.results_html
           }));
           Manager.addWidget(new AjaxSolr.PagerWidget({
             id: 'pager',
@@ -36,7 +31,7 @@
             target: '#selection'
           }));
 
-          var searchable_fields = $('#query').attr('data-content').split(',');
+          var searchable_fields = drupalSettings.ajax_solr_search.searchable_fields.replace(/\s/g,'').split(',');
           Manager.addWidget(new AjaxSolr.AutocompleteWidget({
             id: 'text',
             target: '#search',
@@ -44,8 +39,7 @@
           }));
 
           /* Facets */
-          var facets_fields = $('#facets-fields').attr('data-content').split(',');
-          //var facets_fields = ['site', 'ss_federated_terms' ];
+          var facets_fields = drupalSettings.ajax_solr_search.facets_fields.replace(/\s/g,'').split(',');
           for (var i = 0, l = facets_fields.length; i < l; i++) {
             Manager.addWidget(new AjaxSolr.MultiSelectWidget({ //MultiSelectWidget instead of Tagcloudwidget
               id: facets_fields[i],
@@ -84,12 +78,9 @@
             }
           }
       });
-
-
-
     }
   }
-})(jQuery, Drupal);
+})(jQuery, Drupal, drupalSettings);
 
 
 

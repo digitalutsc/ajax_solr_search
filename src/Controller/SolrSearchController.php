@@ -12,10 +12,12 @@ class SolrSearchController extends ControllerBase {
   /**
    * Getsearchform.
    *
-   * @return string
+   * @return array
    *   Return Hello string.
    */
   public function getSearchForm() {
+
+    $config = \Drupal::config('ajax_solr_search.ajaxsolrsearchconfig');
 
     $search_form = '<div id="wrap">
       <div class="right">
@@ -61,6 +63,14 @@ class SolrSearchController extends ControllerBase {
         'library' => [
           'ajax_solr_search/ajax_solr_search',
         ],
+        'drupalSettings' => [
+          'ajax_solr_search' => [
+              'solr_url' => $config->get("solr-server-url"),
+              'searchable_fields' => $config->get("solr-searchable-fields"),
+              'facets_fields' => $config->get("solr-facets-fields"),
+              'results_html' =>$config->get("solr-results-html")
+          ]
+        ]
       ],
     ];
   }

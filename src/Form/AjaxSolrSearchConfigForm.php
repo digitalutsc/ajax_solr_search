@@ -47,7 +47,7 @@ class AjaxSolrSearchConfigForm extends ConfigFormBase {
 
     $form['container']['solr-config']['server-url'] = array(
       '#type' => 'textfield',
-      '#name' => 'solr-url',
+      '#name' => 'server-url',
       '#title' => $this
         ->t('Solr Endpoint URL:'),
       '#default_value' => ($config->get("solr-server-url") !== null) ? $config->get("solr-server-url") : "",
@@ -60,7 +60,7 @@ class AjaxSolrSearchConfigForm extends ConfigFormBase {
       '#title' => $this
         ->t('Enter Solr field(s) to search:'),
       '#default_value' => ($config->get("solr-searchable-fields") !== null) ? $config->get("solr-searchable-fields") : "",
-      '#description' => $this->t('For example: <code>ss_title</code>. For multiple, enter each field in each line')
+      '#description' => $this->t('For example: <code>ss_title</code>. For multiple, separated with comma')
     );
 
     $form['container']['solr-config']['facets-fields'] = array(
@@ -69,7 +69,7 @@ class AjaxSolrSearchConfigForm extends ConfigFormBase {
       '#title' => $this
         ->t('Enter Solr field(s) for Facets:'),
       '#default_value' => ($config->get("solr-facets-fields") !== null) ? $config->get("solr-facets-fields") : "",
-      '#description' => $this->t('For example: <code>ss_content_type</code>. For multiple, enter each field in each line')
+      '#description' => $this->t('For example: <code>ss_content_type</code>. For multiple, separated with comma')
     );
 
     $form['container']['solr-config']['results-html'] = array(
