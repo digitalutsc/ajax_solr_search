@@ -1,0 +1,29 @@
+ajax_solr_search:
+  js:
+    https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js: {}
+    ajax_solr/src/js/solr_search.js: {}
+    ajax_solr/core/Core.js: {}
+    ajax_solr/core/AbstractManager.js: {}
+    ajax_solr/managers/DSUManager.jquery.js: {}
+    ajax_solr/core/Parameter.js: {}
+    ajax_solr/core/ParameterStore.js: {}
+    ajax_solr/core/AbstractWidget.js: {}
+    ajax_solr/src/widgets/ResultWidget.js: {}
+    ajax_solr/src/widgets/widgets/jquery/PagerWidget.js: {}
+    ajax_solr/core/AbstractFacetWidget.js: {}
+    ajax_solr/src/widgets/MultiSelectWidget.js: {}
+    ajax_solr/src/widgets/CurrentSearchWidget.9.js: {}
+    ajax_solr/core/AbstractTextWidget.js: {}
+    ajax_solr/src/widgets/AutocompleteWidget.js: {}
+  css:
+    theme:
+      https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css: {}
+      ajax_solr/src/css/solr_search.css: {}
+  dependencies:
+    - core/jquery
+    - core/jquery.ui
+    - core/jquery.ui.widget
+    - core/drupal
+    - core/drupalSettings
+    - core/drupal.ajax
+

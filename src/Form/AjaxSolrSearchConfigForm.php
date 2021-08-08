@@ -45,7 +45,7 @@ class AjaxSolrSearchConfigForm extends ConfigFormBase {
 
     );
 
-    $form['container']['solr-config']['solr-server-url'] = array(
+    $form['container']['solr-config']['server-url'] = array(
       '#type' => 'textfield',
       '#name' => 'solr-url',
       '#title' => $this
@@ -72,7 +72,7 @@ class AjaxSolrSearchConfigForm extends ConfigFormBase {
       '#description' => $this->t('For example: <code>ss_content_type</code>. For multiple, enter each field in each line')
     );
 
-    $form['container']['solr-config']['results_html_code'] = array(
+    $form['container']['solr-config']['results-html'] = array(
       '#type' => 'textarea',
       '#name' => 'results-html',
       '#title' => $this
@@ -90,8 +90,16 @@ class AjaxSolrSearchConfigForm extends ConfigFormBase {
   public function submitForm(array &$form, FormStateInterface $form_state) {
     parent::submitForm($form, $form_state);
 
-    $this->config('ajax_solr_search.ajaxsolrsearchconfig')
-      ->save();
+    //$this->config('ajax_solr_search.ajaxsolrsearchconfig')->save();
+    $configFactory = $this->configFactory->getEditable('ajax_solr_search.ajaxsolrsearchconfig');
+
+    $configFactory->set("solr-server-url", $form_state->getValues()['server-url']);
+    $configFactory->set("solr-searchable-fields", $form_state->getValues()['searchable-fields']);
+    $configFactory->set("solr-facets-fields", $form_state->getValues()['facets-fields']);
+    $configFactory->set("solr-results-html", $form_state->getValues()['results-html']);
+    $configFactory->save();
+
+    parent::submitForm($form, $form_state);
   }
 
 }

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>AJAX Solr</title>
+  <link rel="stylesheet" href="css/dsu-solr.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+  <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+  <script src="js/dsu.js"></script>
+  <script src="../../core/Core.js"></script>
+  <script src="../../core/AbstractManager.js"></script>
+  <script src="../../managers/DSUManager.jquery.js"></script>
+  <script src="../../core/Parameter.js"></script>
+  <script src="../../core/ParameterStore.js"></script>
+  <script src="../../core/AbstractWidget.js"></script>
+  <script src="widgets/ResultWidget.js"></script>
+  <script src="../../widgets/jquery/PagerWidget.js"></script>
+  <script src="../../core/AbstractFacetWidget.js"></script>
+  <script src="widgets/MultiSelectWidget.js"></script>
+  <script src="widgets/CurrentSearchWidget.9.js"></script>
+  <script src="../../core/AbstractTextWidget.js"></script>
+  <script src="widgets/AutocompleteWidget.js"></script>
+</head>
+<body>
+<div id="wrap">
+  <div id="header">
+    <h1>Multisite Search</h1>
+    <h2>... against Single Solr Core index</h2>
+  </div>
+
+  <div class="right">
+    <div id="result">
+      <div id="navigation">
+        <ul id="pager"></ul>
+        <div id="pager-header"></div>
+      </div>
+      <div id="docs" data-content=""></div>
+    </div>
+  </div>
+
+  <div class="left">
+    <h2>Current Selection</h2>
+    <ul id="selection"></ul>
+
+    <h2>Search</h2>
+    <span id="search_help">(press ESC to close suggestions)</span>
+    <ul id="search">
+      <input type="text" id="query" name="query" autocomplete="off"
+             data-content="ss_federated_title,site,ss_federated_terms,content">
+    </ul>
+
+    <input id="facets-fields" name="facets-fields" type="hidden" data-content="site,ss_federated_terms,ss_federated_type" />
+    <h2>Sites</h2>
+    <div class="tagcloud" id="site"></div>
+
+    <h2>Tag</h2>
+    <div class="tagcloud" id="ss_federated_terms"></div>
+
+    <h2>Content type</h2>
+    <div class="tagcloud" id="ss_federated_type"></div>
+
+    <div class="clear"></div>
+  </div>
+  <div class="clear"></div>
+</div>
+</body>
+</html>

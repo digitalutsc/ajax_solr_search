@@ -7,3 +7,11 @@ ajax_solr_search.ajax_solr_search_config_form:
     _permission: 'access administration pages'
   options:
     _admin_route: TRUE
+
+ajax_solr_search.solr_search_controller_getSearchForm:
+  path: '/multisite/search'
+  defaults:
+    _controller: '\Drupal\ajax_solr_search\Controller\SolrSearchController::getSearchForm'
+    _title: 'Render the search form'
+  requirements:
+    _permission: 'access content'
