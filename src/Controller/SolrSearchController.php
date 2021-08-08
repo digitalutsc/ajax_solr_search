@@ -19,6 +19,12 @@ class SolrSearchController extends ControllerBase {
 
     $config = \Drupal::config('ajax_solr_search.ajaxsolrsearchconfig');
 
+    $facets = explode(",", str_replace(' ', '', $config->get("solr-facets-fields")));
+    $facets_htmls= '';
+    foreach($facets as $f) {
+      $facets_htmls .= '<h2>'.$f.'</h2><div class="tagcloud" id="'.$f.'"></div>';
+    }
+
     $search_form = '<div id="wrap">
       <div class="right">
         <div id="result">
@@ -42,14 +48,8 @@ class SolrSearchController extends ControllerBase {
         </ul>
 
         <input id="facets-fields" name="facets-fields" type="hidden" data-content="site,ss_federated_terms,ss_federated_type" />
-        <h2>Sites</h2>
-        <div class="tagcloud" id="site"></div>
 
-        <h2>Tag</h2>
-        <div class="tagcloud" id="ss_federated_terms"></div>
-
-        <h2>Content type</h2>
-        <div class="tagcloud" id="ss_federated_type"></div>
+       '. $facets_htmls.'
 
         <div class="clear"></div>
       </div>
