@@ -21,7 +21,7 @@ class SolrSearchController extends ControllerBase {
 
     $facets_htmls= '';
     foreach($config->get("solr-facets-fields") as $f) {
-      $facets_htmls .= '<h2>'.$f['label'].'</h2><div class="tagcloud" id="'.$f['fname'].'"></div>';
+      $facets_htmls .= '<h2>'.$f['label'].'</h2><div class="tagcloud" id="'.$f['fname'].'"></div><hr />';
     }
 
 

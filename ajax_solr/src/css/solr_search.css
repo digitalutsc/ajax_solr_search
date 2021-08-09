@@ -46,7 +46,9 @@
   width: 35%;
   padding: 0 0 10px 10px;
 }
-
+.left h2 {
+  margin : 0 !important;
+}
 #search input {
   width: 350px;
 }
