@@ -46,12 +46,7 @@
   width: 35%;
   padding: 0 0 10px 10px;
 }
-.left h2 {
-  clear: left;
-  padding-top: 20px;
-  color: #333;
-  font-size: 13px;
-}
+
 #search input {
   width: 350px;
 }
