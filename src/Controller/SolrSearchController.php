@@ -43,8 +43,7 @@ class SolrSearchController extends ControllerBase {
         <h2>Search</h2>
         <span id="search_help">(press ESC to close suggestions)</span>
         <ul id="search">
-          <input type="text" id="query" name="query" autocomplete="off"
-                 data-content="ss_federated_title,site,ss_federated_terms,content">
+          <input type="text" id="query" name="query" autocomplete="off" />
         </ul>
 
         <input id="facets-fields" name="facets-fields" type="hidden" data-content="site,ss_federated_terms,ss_federated_type" />
