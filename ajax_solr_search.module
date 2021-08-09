@@ -33,3 +33,29 @@ function ajax_solr_search_theme() {
     ],
   ];
 }
+
+
+/**
+ * Debug function: display any variable to error log
+ *
+ * @param $thing
+ */
+if (!function_exists('print_log')) {
+  function print_log($thing)
+  {
+    error_log(print_r($thing, true), 0);
+  }
+
+}
+/**
+ * Debug function: display any variable to current webpage
+ * @param $thing
+ */
+if (!function_exists('logging')) {
+  function logging($thing)
+  {
+    echo "<pre>";
+    print_r($thing);
+    echo "</pre>";
+  }
+}
