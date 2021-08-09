@@ -60,8 +60,11 @@
       var output = '<div>';
       for (var i = 0; i < this.result_html.length; i++ ) {
         if (doc[this.result_html[i].fname] !== undefined) {
-
           var value = doc[this.result_html[i].fname];
+          if (i == 0) {
+            value = "<h2>" + doc[this.result_html[i].fname] + "</h2>";
+          }
+
           if (doc[this.result_html[i].fname].length > 280) {
             value = doc[this.result_html[i].fname].substring(0, 280) + " ...";
           }

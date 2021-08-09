@@ -69,6 +69,7 @@ class AjaxSolrSearchConfigForm extends ConfigFormBase {
     if ($num_facets_fields === NULL) {
       if ($config->get("solr-facets-fields") !== null && count($config->get("solr-facets-fields"))  > 0 ) {
         $num_facets_fields = count($config->get("solr-facets-fields"));
+        $name_field = $form_state->set('num_facets_fields', $num_facets_fields);
       }
       else {
         $name_field = $form_state->set('num_facets_fields', 1);
@@ -136,6 +137,7 @@ class AjaxSolrSearchConfigForm extends ConfigFormBase {
     if ($num_searchresults_fields === NULL) {
       if ($config->get("solr-facets-fields") !== null && count($config->get("solr-results-html"))  > 0 ) {
         $num_searchresults_fields = count($config->get("solr-results-html"));
+        $name_field = $form_state->set('num_searchresults_fields', $num_searchresults_fields);
       }
       else {
         $name_field = $form_state->set('num_searchresults_fields', 1);
