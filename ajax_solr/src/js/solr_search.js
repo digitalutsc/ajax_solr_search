@@ -3,7 +3,7 @@
 (function ($, Drupal, drupalSettings) {
   Drupal.behaviors.d8_scholarship_frontBehavior = {
     attach: function (context, settings) {
-      console.log(drupalSettings.ajax_solr_search);
+      //console.log(drupalSettings.ajax_solr_search);
 
       $(document).ready(function() {
           var Manager;
