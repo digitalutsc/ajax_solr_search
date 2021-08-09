@@ -4,6 +4,7 @@
   Drupal.behaviors.d8_scholarship_frontBehavior = {
     attach: function (context, settings) {
       //console.log(drupalSettings.ajax_solr_search);
+
       $(document).ready(function() {
           var Manager;
           Manager = new AjaxSolr.Manager({
@@ -12,7 +13,7 @@
           Manager.addWidget(new AjaxSolr.ResultWidget({
             id: 'result',
             target: '#docs',
-            result_html: drupalSettings.ajax_solr_search.results_html
+            result_html: JSON.parse(drupalSettings.ajax_solr_search.results_html)
           }));
           Manager.addWidget(new AjaxSolr.PagerWidget({
             id: 'pager',
@@ -39,22 +40,25 @@
           }));
 
           /* Facets */
-          var facets_fields = drupalSettings.ajax_solr_search.facets_fields.replace(/\s/g,'').split(',');
+          //var facets_fields = drupalSettings.ajax_solr_search.facets_fields.replace(/\s/g,'').split(',');
+          var facets_fields = JSON.parse(drupalSettings.ajax_solr_search.facets_fields);
+          var facets = [];
           for (var i = 0, l = facets_fields.length; i < l; i++) {
             Manager.addWidget(new AjaxSolr.MultiSelectWidget({ //MultiSelectWidget instead of Tagcloudwidget
-              id: facets_fields[i],
-              target: '#' + facets_fields[i],
-              field: facets_fields[i],
+              id: facets_fields[i].fname,
+              target: '#' + facets_fields[i].fname,
+              field: facets_fields[i].fname,
               max_show: 10,
               max_facets: 20,
-              sort_type: 'range' //possible values: 'range', 'lex', 'count'
+              sort_type: 'range'
             }));
+            facets.push(facets_fields[i].fname);
           }
           Manager.init();
           Manager.store.addByValue('q', '*:*');
           var params = {
             facet: true,
-            'facet.field': facets_fields,
+            'facet.field': facets,
             'facet.limit': 20,
             'facet.mincount': 1,
             'f.site.facet.limit': 50,

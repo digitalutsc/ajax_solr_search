@@ -55,11 +55,28 @@
     },
 
     template: function (doc) {
-      /*var output = '<div><a href="' + doc.sm_urls + '" target="_blank"><h2>' + doc.ss_federated_title + '</h2></a>';
-      if (doc.content)
-        output += '<p>' + doc.content.substring(0, 350) + '...</p>';
-      output += '<p><strong>Date created:</strong> ' + doc.ds_federated_date + '<br /><strong>Site:</strong> ' + doc.site + '<br /><strong>Content type:</strong> ' + doc.ss_federated_type + '</p></div><hr/>';*/
-      var output = eval(this.result_html);
+
+      var output = '<div>';
+      for (var i = 0; i < this.result_html.length; i++ ) {
+        if (doc[this.result_html[i].fname] !== undefined) {
+          // process value
+          var value = replaceURLs(doc[this.result_html[i].fname]);
+          if (i == 0) {
+            value = "<h2>" + replaceURLs(doc[this.result_html[i].fname]) + "</h2>";
+          }
+          if (doc[this.result_html[i].fname].length > 280) {
+            value = doc[this.result_html[i].fname].substring(0, 280) + " ...";
+          }
+
+          if (this.result_html[i].label) {
+            output += "<p><strong>"+this.result_html[i].label+"</strong>: " + value + "</p>";
+          }
+          else {
+            output += "<p>" + value + "</p>";
+          }
+        }
+      }
+      output += '<hr /></div>';
       return output;
     },
 
@@ -81,5 +98,23 @@
       });
     }
   });
+
+  /**
+   * https://www.cluemediator.com/find-urls-in-string-and-make-a-link-using-javascript
+   * @param message
+   * @returns {*}
+   */
+  function replaceURLs(message) {
+    if(!message) return;
+
+    var urlRegex = /(((https?:\/\/)|(www\.))[^\s]+)/g;
+    return message.toString().replace(urlRegex, function (url) {
+      var hyperlink = url;
+      if (!hyperlink.match('^https?:\/\/')) {
+        hyperlink = 'http://' + hyperlink;
+      }
+      return '<a href="' + hyperlink + '" target="_blank" rel="noopener noreferrer">' + url + '</a>'
+    });
+  }
 
 })(jQuery);
