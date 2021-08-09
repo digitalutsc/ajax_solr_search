@@ -55,11 +55,25 @@
     },
 
     template: function (doc) {
-      /*var output = '<div><a href="' + doc.sm_urls + '" target="_blank"><h2>' + doc.ss_federated_title + '</h2></a>';
-      if (doc.content)
-        output += '<p>' + doc.content.substring(0, 350) + '...</p>';
-      output += '<p><strong>Date created:</strong> ' + doc.ds_federated_date + '<br /><strong>Site:</strong> ' + doc.site + '<br /><strong>Content type:</strong> ' + doc.ss_federated_type + '</p></div><hr/>';*/
-      var output = eval(this.result_html);
+      console.log("template");
+
+      var output = '<div>';
+      for (var i = 0; i < this.result_html.length; i++ ) {
+        if (doc[this.result_html[i].fname] !== undefined) {
+
+          var value = doc[this.result_html[i].fname];
+          if (doc[this.result_html[i].fname].length > 280) {
+            value = doc[this.result_html[i].fname].substring(0, 280) + " ...";
+          }
+          if (this.result_html[i].label) {
+            output += "<p><strong>"+this.result_html[i].label+"</strong>: " + value + "</p>";
+          }
+          else {
+            output += "<p>" + value + "</p>";
+          }
+        }
+      }
+      output += '<hr /></div>';
       return output;
     },
 

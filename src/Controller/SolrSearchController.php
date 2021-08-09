@@ -19,11 +19,11 @@ class SolrSearchController extends ControllerBase {
 
     $config = \Drupal::config('ajax_solr_search.ajaxsolrsearchconfig');
 
-    $facets = explode(",", str_replace(' ', '', $config->get("solr-facets-fields")));
     $facets_htmls= '';
-    foreach($facets as $f) {
-      $facets_htmls .= '<h2>'.$f.'</h2><div class="tagcloud" id="'.$f.'"></div>';
+    foreach($config->get("solr-facets-fields") as $f) {
+      $facets_htmls .= '<h2>'.$f['label'].'</h2><div class="tagcloud" id="'.$f['fname'].'"></div>';
     }
+
 
     $search_form = '<div id="wrap">
       <div class="right">
@@ -56,6 +56,8 @@ class SolrSearchController extends ControllerBase {
       <div class="clear"></div>
     </div>';
 
+    //logging($config->get("solr-facets-fields"));
+    //logging($config->get("solr-results-html"));
     return [
       '#type' => 'markup',
       '#markup' => $this->t($search_form),
@@ -67,8 +69,8 @@ class SolrSearchController extends ControllerBase {
           'ajax_solr_search' => [
               'solr_url' => $config->get("solr-server-url"),
               'searchable_fields' => $config->get("solr-searchable-fields"),
-              'facets_fields' => $config->get("solr-facets-fields"),
-              'results_html' =>$config->get("solr-results-html")
+              'facets_fields' => json_encode($config->get("solr-facets-fields")),
+              'results_html' => json_encode($config->get("solr-results-html"))
           ]
         ]
       ],
