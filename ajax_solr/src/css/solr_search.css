@@ -5,6 +5,10 @@
   clear: both;
 }
 
+.ui-autocomplete-input {
+  border: 1px solid #ccc !important;
+}
+
 /* right */
 
 .right {
@@ -17,8 +21,14 @@
 #result a {
   margin-right: 5px;
 }
-#navigation {
+/*#navigation {
   border-bottom: 1px solid #000;
+}*/
+#pager {
+  margin-left:20%;
+}
+#pager li a {
+  font-size: 1.1em;
 }
 #pager,
 #pager-header {
@@ -28,7 +38,11 @@
 .links li {
   list-style-type: none;
   display: inline;
+  padding: 0.5em;
+  border-radius: 0.125em;
+  margin: 0 0 0.25em 1.0em !important;
 }
+
 #selection {
   padding: 10px 15px 0;
 }

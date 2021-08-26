@@ -13,6 +13,7 @@
           Manager.addWidget(new AjaxSolr.ResultWidget({
             id: 'result',
             target: '#docs',
+            highlighting: true,
             result_html: JSON.parse(drupalSettings.ajax_solr_search.results_html)
           }));
           Manager.addWidget(new AjaxSolr.PagerWidget({
@@ -22,7 +23,7 @@
             nextLabel: '&gt;',
             innerWindow: 1,
             renderHeader: function (perPage, offset, total) {
-              $('#pager-header').html($('<span></span>').text('displaying ' + Math.min(total, offset + 1) + ' to ' + Math.min(total, offset + perPage) + ' of ' + total));
+              $('#pager-header').html($('<p></p>').text('Displaying ' + Math.min(total, offset + 1) + ' - ' + Math.min(total, offset + perPage) + ' of ' + total));
             }
           }));
 
@@ -67,7 +68,12 @@
             'facet.date.start': '1987-02-26T00:00:00.000Z/DAY',
             'facet.date.end': '1987-10-20T00:00:00.000Z/DAY+1DAY',
             'facet.date.gap': '+1DAY',
-            'json.nl': 'map'
+            'json.nl': 'map',
+            'hl': true,
+            'hl.fl': 'text',
+            'hl.snippets': 4,
+            'hl.simple.pre': '<font style="background:#FFFF99">',
+            'hl.simple.post': '</font>'
           };
           for (var name in params) {
             Manager.store.addByValue(name, params[name]);

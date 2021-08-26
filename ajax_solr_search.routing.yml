@@ -12,6 +12,6 @@ ajax_solr_search.solr_search_controller_getSearchForm:
   path: '/multisite/search'
   defaults:
     _controller: '\Drupal\ajax_solr_search\Controller\SolrSearchController::getSearchForm'
-    _title: 'Render the search form'
+    _title: ''
   requirements:
     _permission: 'access content'
