@@ -37,9 +37,15 @@
 
     afterRequest: function () {
       $(this.target).empty();
+      if (this.no_init_results) {
+        if ((this.manager.store.get('q').value == '*:*') &&
+          (this.manager.store.values('fq').length <= 0)) {
+          return;
+        } //Added so initial *:* query doesn't show results
+      }
       for (var i = 0, l = this.manager.response.response.docs.length; i < l; i++) {
         var doc = this.manager.response.response.docs[i];
-        $(this.target).append(this.template(doc));
+        $(this.target).append(this.template(doc, this.manager.response.highlighting));
 
         var items = [];
         items = items.concat(this.facetLinks('site', doc.site));
@@ -54,7 +60,30 @@
       }
     },
 
-    template: function (doc) {
+    getDocSnippets: function (highlighting, doc) {
+      var id_val = doc['id']; //Change if your documents have different ID field name
+      var cur_doc_highlighting = highlighting[id_val];
+      var all_snippets_arr = [];
+      if (typeof cur_doc_highlighting != 'undefined') {
+        for (var snip_k in cur_doc_highlighting) {
+          var cur_snippets = cur_doc_highlighting[snip_k];
+          for (var snip_i = 0; snip_i < cur_snippets.length; snip_i++) {
+            var cur_snippet_txt = cur_snippets[snip_i];
+            all_snippets_arr.push(cur_snippet_txt);
+          }
+        }
+      }
+      var cur_doc_snippets_txt = '...' + all_snippets_arr.join('...') + '...';
+      return (cur_doc_snippets_txt);
+    },
+
+    template: function (doc, highlighting) {
+
+      var snippet = '';
+      var cur_doc_highlighting_txt;
+      if (this.highlighting && highlighting) {
+        cur_doc_highlighting_txt = this.getDocSnippets(highlighting, doc);
+      }
 
       var output = '<div>';
       for (var i = 0; i < this.result_html.length; i++ ) {
@@ -68,18 +97,34 @@
             value = doc[this.result_html[i].fname].substring(0, 280) + " ...";
           }
 
-          if (this.result_html[i].label) {
-            output += "<p><strong>"+this.result_html[i].label+"</strong>: " + value + "</p>";
+          if ( this.result_html[i].fname === "content" &&
+            (!(this.isBlank(cur_doc_highlighting_txt) || /^\s*\.*\s*$/.test(cur_doc_highlighting_txt)))) {
+            if (this.result_html[i].label) {
+              output += "<p><strong>"+this.result_html[i].label+"</strong>: " + cur_doc_highlighting_txt + "</p>";
+            }
+            else {
+              output += "<p>" + cur_doc_highlighting_txt + "</p>";
+            }
           }
           else {
-            output += "<p>" + value + "</p>";
+            if (this.result_html[i].label) {
+              output += "<p><strong>"+this.result_html[i].label+"</strong>: " + value + "</p>";
+            }
+            else {
+              output += "<p>" + value + "</p>";
+            }
           }
+
+
         }
       }
       output += '<hr /></div>';
       return output;
     },
 
+    isBlank: function (str) {
+      return (!str || /^\s*$/.test(str));
+    },
     init: function () {
 
       $(document).on('click', 'a.more', function () {

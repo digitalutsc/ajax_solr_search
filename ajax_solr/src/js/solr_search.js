@@ -14,6 +14,7 @@
             id: 'result',
             target: '#docs',
             highlighting: true,
+            //no_init_results: true,
             result_html: JSON.parse(drupalSettings.ajax_solr_search.results_html)
           }));
           Manager.addWidget(new AjaxSolr.PagerWidget({
@@ -51,12 +52,19 @@
               field: facets_fields[i].fname,
               max_show: 10,
               max_facets: 20,
-              sort_type: 'range'
+              sort_type: 'count'
             }));
             facets.push(facets_fields[i].fname);
           }
           Manager.init();
           Manager.store.addByValue('q', '*:*');
+
+          /*var fields =  JSON.parse(drupalSettings.ajax_solr_search.results_html);
+          var hl_fields = "";
+          for (var i = 0; i < fields.length; i++) {
+            hl_fields += fields[i].fname + " ";
+          }*/
+
           var params = {
             facet: true,
             'facet.field': facets,
@@ -70,24 +78,27 @@
             'facet.date.gap': '+1DAY',
             'json.nl': 'map',
             'hl': true,
-            'hl.fl': 'text',
+            //'hl.fl': hl_fields.trim(),
+            'hl.fl': 'content ss_federated_title',
             'hl.snippets': 4,
-            'hl.simple.pre': '<font style="background:#FFFF99">',
-            'hl.simple.post': '</font>'
+            'hl.simple.pre': '<span style="background:#FFFF99">',
+            'hl.simple.post': '</span>'
           };
+          console.log(params);
           for (var name in params) {
             Manager.store.addByValue(name, params[name]);
           }
           Manager.doRequest();
-
-          $.fn.showIf = function (condition) {
-            if (condition) {
-              return this.show();
-            } else {
-              return this.hide();
-            }
-          }
       });
+
+      $.fn.showIf = function (condition) {
+        if (condition) {
+          return this.show();
+        } else {
+          return this.hide();
+        }
+      }
+
     }
   }
 })(jQuery, Drupal, drupalSettings);
