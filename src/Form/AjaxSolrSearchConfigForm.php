@@ -58,7 +58,7 @@ class AjaxSolrSearchConfigForm extends ConfigFormBase {
       '#type' => 'textarea',
       '#name' => 'searchable-fields',
       '#title' => $this
-        ->t('Enter Solr field(s) to search:'),
+        ->t('Enter Solr field(s) for autocomplete:'),
       '#default_value' => ($config->get("solr-searchable-fields") !== null) ? $config->get("solr-searchable-fields") : "",
       '#description' => $this->t('For example: <code>ss_title</code>. For multiple, separated with comma')
     );

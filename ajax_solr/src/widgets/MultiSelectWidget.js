@@ -317,7 +317,8 @@ left side of the range
             $('<input type=checkbox id="' + this.field + '_' + facet + '_checkbox"' + checked_txt + '></input>')
               .change(this.checkboxChange(facet))
           );
-          $(this.target).append($('<span style="padding-left: 2px; font-size: small"></span>').text(facet));
+
+          $(this.target).append($('<label for="'+this.field + '_' + facet + '_checkbox'+'" style="padding-left: 5px; font-size: small"></label>').text(facet));
           if (cur_facet_count != 0) {
             $(this.target).append($('<span style="font-size: x-small"></span>').text(' (' + cur_facet_count + ')'));
           }
