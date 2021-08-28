@@ -14,12 +14,13 @@
             id: 'result',
             target: '#docs',
             highlighting: true,
-            //no_init_results: true,
+            no_init_results: false,
             result_html: JSON.parse(drupalSettings.ajax_solr_search.results_html)
           }));
           Manager.addWidget(new AjaxSolr.PagerWidget({
             id: 'pager',
             target: '#pager',
+            no_init_results: false,
             prevLabel: '&lt;',
             nextLabel: '&gt;',
             innerWindow: 1,
@@ -64,7 +65,7 @@
           for (var i = 0; i < fields.length; i++) {
             hl_fields += fields[i].fname + " ";
           }*/
-
+          searchable_fields.join(" ");
           var params = {
             facet: true,
             'facet.field': facets,
@@ -79,7 +80,7 @@
             'json.nl': 'map',
             'hl': true,
             //'hl.fl': hl_fields.trim(),
-            'hl.fl': 'content ss_federated_title',
+            'hl.fl': searchable_fields.join(" "),
             'hl.snippets': 4,
             'hl.simple.pre': '<span style="background:#FFFF99">',
             'hl.simple.post': '</span>'
