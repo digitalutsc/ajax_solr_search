@@ -47,7 +47,7 @@ class SolrSearchController extends ControllerBase
         <div id="search">
           <input type="text" id="query" name="query" autocomplete="off" />
         </div>
-        <span id="search_help">press ESC to close suggestions</span>
+        <span id="search_help">(press ENTER to search)</span>
        ' . $facets_htmls . '
         <div class="clear"></div>
       </div>

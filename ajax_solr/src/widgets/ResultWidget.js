@@ -4,7 +4,7 @@
     start: 0,
 
     beforeRequest: function () {
-      $(this.target).html($('<img>').attr('src', '../images/ajax-loader.gif'));
+      //$(this.target).html($('<img>').attr('src', '../images/ajax-loader.gif'));
     },
 
     facetLinks: function (facet_field, facet_values) {

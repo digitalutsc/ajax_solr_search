@@ -85,7 +85,6 @@
             'hl.simple.pre': '<span style="background:#FFFF99">',
             'hl.simple.post': '</span>'
           };
-          console.log(params);
           for (var name in params) {
             Manager.store.addByValue(name, params[name]);
           }

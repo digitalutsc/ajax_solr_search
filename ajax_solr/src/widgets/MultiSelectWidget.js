@@ -349,14 +349,14 @@ left side of the range
 
       var ac_id = this.field + '_all_extra';
       if (num_hidden > 0) {
-        $('#' + show_more_div_id).append('Or search: ');
-        $('#' + show_more_div_id).append($('<input id="' + ac_id + '">'));
+        //$('#' + show_more_div_id).append('Or search: ');
+        //$('#' + show_more_div_id).append($('<input id="' + ac_id + '">'));
         var more_or_less_txt = (this.display_style == 'none') ? '+more' : '-less';
         $(this.target).append('<a id="' + show_more_div_id + '_txt" href="#">' + more_or_less_txt + '</a>');
         $('#' + show_more_div_id + '_txt').click(this.toggleExtra(show_more_div_id));
       } else {
-        $(this.target).append('Or search: ');
-        $(this.target).append($('<input id="' + ac_id + '">'));
+        //$(this.target).append('Or search: ');
+        //$(this.target).append($('<input id="' + ac_id + '">'));
       }
       $('#' + ac_id).autocomplete({
         source: this.autocompleteAjaxFunction(),
