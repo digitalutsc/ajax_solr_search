@@ -1,8 +1,7 @@
 (function (callback) {
   if (typeof define === 'function' && define.amd) {
     define(['core/AbstractManager'], callback);
-  }
-  else {
+  } else {
     callback();
   }
 }(function () {
@@ -29,9 +28,11 @@
           options.url = this.proxyUrl;
           options.data = {query: string};
           options.type = 'POST';
-        }
-        else {
+        } else {
           disableJsonp = true;
+          if (!string.includes("q=*%3A*")) {
+            string = "defType=dismax&qf=tm_X3b_en_title&" + string;
+          }
           options.url = this.solrUrl + servlet + '?' + string + '&wt=json' + (disableJsonp ? '' : '&json.wrf=?');
         }
         jQuery.ajax(options).done(handler).fail(errorHandler);

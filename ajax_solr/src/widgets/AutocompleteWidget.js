@@ -7,7 +7,7 @@ AjaxSolr.AutocompleteWidget = AjaxSolr.AbstractTextWidget.extend({
     var self = this;
 
     var callback = function (response) {
-      var list = [];
+      /*var list = [];
       for (var i = 0; i < self.fields.length; i++) {
         var field = self.fields[i];
         for (var facet in response.facet_counts.facet_fields[field]) {
@@ -31,10 +31,10 @@ AjaxSolr.AutocompleteWidget = AjaxSolr.AbstractTextWidget.extend({
           }
         }
       });
-
+      */
       // This has lower priority so that requestSent is set.
       $(self.target).find('input').bind('keydown', function(e) {
-        if (self.requestSent === false && e.which == 13) {
+        if (/*self.requestSent === false &&*/ e.which == 13) {
           var value = $(this).val();
           if (value && self.set(value)) {
             self.doRequest();

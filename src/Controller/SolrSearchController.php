@@ -34,9 +34,7 @@ class SolrSearchController extends ControllerBase
             <div id="pager-header"></div>
             <ul id="pager"></ul>
           </div>
-          <!-- Current Selection -->
-          <ul id="selection"></ul>
-          <hr />
+
           <div id="docs" data-content=""></div>
         </div>
       </div>
@@ -48,6 +46,9 @@ class SolrSearchController extends ControllerBase
           <input type="text" id="query" name="query" autocomplete="off" />
         </div>
         <span id="search_help">(press ENTER to search)</span>
+        <!-- Current Selection -->
+         <ul id="selection"></ul>
+
        ' . $facets_htmls . '
         <div class="clear"></div>
       </div>
