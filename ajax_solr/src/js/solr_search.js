@@ -79,11 +79,10 @@
             'facet.date.gap': '+1DAY',
             'json.nl': 'map',
             'hl': true,
-            //'hl.fl': hl_fields.trim(),
-            //'hl.fl': searchable_fields.join(" "),
-            //'hl.snippets': 4,
-            //'hl.simple.pre': '<span style="background:#FFFF99">',
-            //'hl.simple.post': '</span>'
+            'hl.fl': searchable_fields.join(" "),
+            'hl.snippets': 4,
+            'hl.simple.pre': '<span style="background:#FFFF99">',
+            'hl.simple.post': '</span>'
           };
           for (var name in params) {
             Manager.store.addByValue(name, params[name]);
