@@ -65,9 +65,9 @@
           for (var i = 0; i < fields.length; i++) {
             hl_fields += fields[i].fname + " ";
           }*/
-          searchable_fields.join(" ");
           var params = {
             facet: true,
+            'qf' : searchable_fields.join(" "),
             'facet.field': facets,
             'facet.limit': 20,
             'facet.mincount': 1,

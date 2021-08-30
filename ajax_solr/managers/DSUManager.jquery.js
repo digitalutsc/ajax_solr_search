@@ -31,7 +31,7 @@
         } else {
           disableJsonp = true;
           if (!string.includes("q=*%3A*")) {
-            string = "defType=dismax&qf=tm_X3b_en_title&" + string;
+            string = "defType=dismax&" + string;
           }
           options.url = this.solrUrl + servlet + '?' + string + '&wt=json' + (disableJsonp ? '' : '&json.wrf=?');
         }
