@@ -91,17 +91,18 @@
           // process value
           var value = replaceURLs(doc[this.result_html[i].fname]);
 
-          // thumbnail
-          if (i == 0) {
-            console.log(doc['site']);
-            var imageurl = doc[this.result_html[i].fname];
-            var thumbnail = imageurl.replace("public://", (doc['site'] + "sites/default/files/"))
-            value = "<img src='" + thumbnail + "' alt='thumbnail' />";
-          }
           // title
-          if (i == 1) {
+          if (i == 0) {
             value = "<h2>" + replaceURLs(doc[this.result_html[i].fname]) + "</h2>";
           }
+          // thumbnail
+          if (i == 1) {
+            //console.log(doc['site']);
+            var imageurl = doc[this.result_html[i].fname][0];
+            var thumbnail = imageurl.replace("public://", (doc['site'] + "sites/default/files/"));
+            value = "<img src='" + thumbnail + "' alt='thumbnail' class='search-result-thumbnail'/>";
+          }
+
           if (doc[this.result_html[i].fname].length > 280) {
             value = doc[this.result_html[i].fname].substring(0, 280) + " ...";
           }

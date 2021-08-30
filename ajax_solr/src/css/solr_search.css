@@ -9,7 +9,10 @@
   border: 1px solid #ccc !important;
 }
 
-
+.search-result-thumbnail {
+  width: 30%;
+  /*float:left;*/
+}
 /* right */
 
 .right {

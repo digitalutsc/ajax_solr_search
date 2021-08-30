@@ -141,7 +141,7 @@ class AjaxSolrSearchConfigForm extends ConfigFormBase {
       }
       else {
         $name_field = $form_state->set('num_searchresults_fields', 1);
-        $num_searchresults_fields = 1;
+        $num_searchresults_fields = 2;
       }
 
     }
@@ -154,9 +154,18 @@ class AjaxSolrSearchConfigForm extends ConfigFormBase {
       '#tree' => TRUE,
     );
     for ($i = 0; $i < $num_searchresults_fields; $i++) {
+        if ($i == 0) {
+            $field_label = 'Title Field';
+        }
+        else if ($i == 1) {
+            $field_label = 'Thumbnail Field';
+        }
+        else {
+            $field_label = 'Field Name #'. ($i+ 1);
+        }
       $form['container']['search-results']['results-field-name-'.$i] = [
         '#type' => 'textfield',
-        '#title' => $this->t('Field Name #'. ($i+ 1)),
+        '#title' => $this->t($field_label),
         '#prefix' => '<div class="form--inline clearfix"><div class="form-item">',
         '#suffix' => '</div>',
         '#default_value' => !empty($config->get("solr-results-html")[$i]['fname']) ? $config->get("solr-results-html")[$i]['fname'] : ''
