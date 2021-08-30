@@ -90,7 +90,16 @@
         if (doc[this.result_html[i].fname] !== undefined) {
           // process value
           var value = replaceURLs(doc[this.result_html[i].fname]);
+
+          // thumbnail
           if (i == 0) {
+            console.log(doc['site']);
+            var imageurl = doc[this.result_html[i].fname];
+            var thumbnail = imageurl.replace("public://", (doc['site'] + "sites/default/files/"))
+            value = "<img src='" + thumbnail + "' alt='thumbnail' />";
+          }
+          // title
+          if (i == 1) {
             value = "<h2>" + replaceURLs(doc[this.result_html[i].fname]) + "</h2>";
           }
           if (doc[this.result_html[i].fname].length > 280) {

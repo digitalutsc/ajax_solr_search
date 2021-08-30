@@ -79,7 +79,7 @@
             'facet.date.gap': '+1DAY',
             'json.nl': 'map',
             'hl': true,
-            'hl.fl': searchable_fields.join(" "),
+            'hl.fl': 'tm_X3b_en_description',//searchable_fields.join(" "),
             'hl.snippets': 4,
             'hl.simple.pre': '<span style="background:#FFFF99">',
             'hl.simple.post': '</span>'
