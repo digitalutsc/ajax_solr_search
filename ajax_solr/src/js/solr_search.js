@@ -1,5 +1,3 @@
-
-
 (function ($, Drupal, drupalSettings) {
   Drupal.behaviors.d8_scholarship_frontBehavior = {
     attach: function (context, settings) {
@@ -8,7 +6,8 @@
       $(document).ready(function() {
           var Manager;
           Manager = new AjaxSolr.Manager({
-            solrUrl: (drupalSettings.ajax_solr_search.solr_url.substr(-1) !== '/') ? (drupalSettings.ajax_solr_search.solr_url + '/') : drupalSettings.ajax_solr_search.solr_url
+            solrUrl: (drupalSettings.ajax_solr_search.solr_url.substr(-1) !== '/') ? (drupalSettings.ajax_solr_search.solr_url + '/') : drupalSettings.ajax_solr_search.solr_url,
+            proxyUrl: drupalSettings.ajax_solr_search.proxy_url,
           });
           Manager.addWidget(new AjaxSolr.ResultWidget({
             id: 'result',
@@ -80,9 +79,9 @@
             'json.nl': 'map',
             'hl': true,
             'hl.fl': 'tm_X3b_en_description',//searchable_fields.join(" "),
-            'hl.snippets': 4,
-            'hl.simple.pre': '<span style="background:#FFFF99">',
-            'hl.simple.post': '</span>'
+            'hl.snippets': 4
+            /*'hl.simple.pre': '<span style="background:#FFFF99">',
+            'hl.simple.post': '</span>'*/
           };
           for (var name in params) {
             Manager.store.addByValue(name, params[name]);

@@ -25,7 +25,7 @@
           self.handleError(textStatus + ', ' + errorThrown);
         };
         if (this.proxyUrl) {
-          options.url = this.proxyUrl;
+          options.url = this.proxyUrl + '/' + servlet;
           options.data = {query: string};
           options.type = 'POST';
         } else {

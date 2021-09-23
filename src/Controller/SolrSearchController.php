@@ -18,7 +18,6 @@ class SolrSearchController extends ControllerBase
    */
   public function getSearchForm()
   {
-
     $config = \Drupal::config('ajax_solr_search.ajaxsolrsearchconfig');
 
     $facets_htmls = '';
@@ -55,8 +54,23 @@ class SolrSearchController extends ControllerBase
       <div class="clear"></div>
     </div>';
 
-    //logging($config->get("solr-facets-fields"));
-    //logging($config->get("solr-results-html"));
+    $proxy_url = "";
+    if ($config->get("solr-proxy-enabled") === 1) {
+      global $base_url;
+      $proxy_url = $config->get("solr-server-url");
+      $solr_host = parse_url($proxy_url, PHP_URL_HOST);
+
+      $solr_port = parse_url($proxy_url, PHP_URL_PORT);
+      if (!empty($solr_port)) {
+        $proxy_url = str_replace($solr_host . ":" . $solr_port, parse_url($base_url, PHP_URL_HOST), $proxy_url);
+        print_log($proxy_url);
+      }
+      else {
+        $proxy_url = str_replace($solr_host, $base_url, $proxy_url);
+      }
+    }
+
+
     return [
       '#type' => 'markup',
       '#markup' => $this->t($search_form),
@@ -67,6 +81,7 @@ class SolrSearchController extends ControllerBase
         'drupalSettings' => [
           'ajax_solr_search' => [
             'solr_url' => $config->get("solr-server-url"),
+            'proxy_url' => $proxy_url,
             'searchable_fields' => $config->get("solr-searchable-fields"),
             'facets_fields' => json_encode($config->get("solr-facets-fields")),
             'results_html' => json_encode($config->get("solr-results-html"))

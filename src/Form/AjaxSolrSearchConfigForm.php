@@ -54,7 +54,19 @@ class AjaxSolrSearchConfigForm extends ConfigFormBase {
       '#description' => $this->t('For example: <code>http://localhost:8983/solr/multisite</code>')
     );
 
-    $form['container']['solr-config']['searchable-fields'] = array(
+    $form['container']['solr-config']['enable-proxy'] = array(
+      '#type' => 'checkbox',
+      '#title' => $this
+        ->t('Enable Proxy (if the above Solr endpoint is behind VPN or firewall)'),
+      '#default_value' => ($config->get("solr-proxy-enabled") !== null) ? $config->get("solr-proxy-enabled") : 0,
+    );
+
+    $form['container']['searchable-fields'] = array(
+      '#type' => 'details',
+      '#title' => 'Searchable Fields',
+      '#open' => true,
+    );
+    $form['container']['searchable-fields']['searchable-fields'] = array(
       '#type' => 'textarea',
       '#name' => 'searchable-fields',
       '#title' => $this
@@ -224,6 +236,8 @@ class AjaxSolrSearchConfigForm extends ConfigFormBase {
     $configFactory = $this->configFactory->getEditable('ajax_solr_search.ajaxsolrsearchconfig');
 
     $configFactory->set("solr-server-url", $form_state->getValues()['server-url']);
+    $configFactory->set("solr-proxy-enabled", $form_state->getValues()['enable-proxy']);
+
     $configFactory->set("solr-searchable-fields", $form_state->getValues()['searchable-fields']);
     //$configFactory->set("solr-facets-fields", $form_state->getValues()['facets-fields']);
     //$configFactory->set("solr-results-html", $form_state->getValues()['results-html']);
@@ -249,7 +263,6 @@ class AjaxSolrSearchConfigForm extends ConfigFormBase {
           'label' =>  $form_state->getValues()['search-results']['results-field-label-'.$i]
         ]);
     }
-    print_log(json_encode($results_fields));
     $configFactory->set("solr-results-html", $results_fields);
     $configFactory->save();
   }
