@@ -24,15 +24,16 @@
         errorHandler = errorHandler || function (jqXHR, textStatus, errorThrown) {
           self.handleError(textStatus + ', ' + errorThrown);
         };
+
+        if (!string.includes("q=*%3A*")) {
+          string = "defType=dismax&" + string;
+        }
         if (this.proxyUrl) {
           options.url = this.proxyUrl + '/' + servlet;
           options.data = {query: string};
           options.type = 'POST';
         } else {
           disableJsonp = true;
-          if (!string.includes("q=*%3A*")) {
-            string = "defType=dismax&" + string;
-          }
           options.url = this.solrUrl + servlet + '?' + string + '&wt=json' + (disableJsonp ? '' : '&json.wrf=?');
         }
         jQuery.ajax(options).done(handler).fail(errorHandler);
