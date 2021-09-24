@@ -63,7 +63,6 @@ class SolrSearchController extends ControllerBase
       $solr_port = parse_url($proxy_url, PHP_URL_PORT);
       if (!empty($solr_port)) {
         $proxy_url = str_replace($solr_host . ":" . $solr_port, parse_url($base_url, PHP_URL_HOST), $proxy_url);
-        print_log($proxy_url);
       }
       else {
         $proxy_url = str_replace($solr_host, $base_url, $proxy_url);
