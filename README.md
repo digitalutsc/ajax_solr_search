@@ -20,8 +20,8 @@ We have developed this module to support search and retrieval using a core that 
 ## Installation and configuration
 * Cloning this module to your module directory of your Drupal site:
   * `git clone https://github.com/digitalutsc/drupal_ajax_solr_search.git`
-* Clone the dependency [Ajax Solr library](https://github.com/digitalutsc/ajax-solr) with `islandora_lite` branch to Libraries directory (ie. drupal/web/libraries):
-  * `git clone -b islandora_lite https://github.com/digitalutsc/ajax-solr.git`
+* Clone the dependency [Ajax Solr library](https://github.com/digitalutsc/ajax-solr) to Libraries directory (ie. drupal/web/libraries):
+  * `git clone https://github.com/digitalutsc/ajax-solr.git`
 * Enable the module.
 * Visit `/admin/config/search/ajax_solr`, fill out the config form with Solr fields which are intented to search against (more in the screenshot below).
 
