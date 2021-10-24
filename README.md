@@ -4,7 +4,7 @@
 Drupal 8/9 module provides a user interface for the Federated Search among multiple Drupal sites which index their content into a shared Solr Core.
 
 ## Based project:
-* [Ajax Solr](https://github.com/evolvingweb/ajax-solr) is a JavaScript library which provide user interfaces to the popular Apache Solr search engine. The module integrates the library into Drupal framework.
+* [Ajax Solr](https://github.com/evolvingweb/ajax-solr) is a JavaScript library which provide web based user interfaces to Apache Solr. The module integrates the library into Drupal framework.
 
 ## Federated Search
 We have developed this module to support search and retrieval using a core that is shared by multiple individual Drupal sites. This allows us to have a federated search across Drupal sites where an end user can conduct a search and see relevant results from multiple sites.
