@@ -1,24 +1,24 @@
 ajax_solr_search:
   js:
     https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js: {}
-    ajax_solr/src/js/solr_search.js: {}
-    ajax_solr/core/Core.js: {}
-    ajax_solr/core/AbstractManager.js: {}
-    ajax_solr/managers/DSUManager.jquery.js: {}
-    ajax_solr/core/Parameter.js: {}
-    ajax_solr/core/ParameterStore.js: {}
-    ajax_solr/core/AbstractWidget.js: {}
-    ajax_solr/src/widgets/ResultWidget.js: {}
-    ajax_solr/src/widgets/widgets/jquery/PagerWidget.js: {}
-    ajax_solr/core/AbstractFacetWidget.js: {}
-    ajax_solr/src/widgets/MultiSelectWidget.js: {}
-    ajax_solr/src/widgets/CurrentSearchWidget.9.js: {}
-    ajax_solr/core/AbstractTextWidget.js: {}
-    ajax_solr/src/widgets/AutocompleteWidget.js: {}
+    /libraries/ajax-solr/src/drupal/js/solr_search.js: {}
+    /libraries/ajax-solr/core/Core.js: {}
+    js/core/AbstractManager.js: {}
+    js/managers/DSUManager.jquery.js: {}
+    /libraries/ajax-solr/core/Parameter.js: {}
+    /libraries/ajax-solr/core/ParameterStore.js: {}
+    /libraries/ajax-solr/core/AbstractWidget.js: {}
+    /libraries/ajax-solr/src/drupal/widgets/ResultWidget.js: {}
+    /libraries/ajax-solr/src/drupal/widgets/widgets/jquery/PagerWidget.js: {}
+    /libraries/ajax-solr/core/AbstractFacetWidget.js: {}
+    /libraries/ajax-solr/src/drupal/widgets/MultiSelectWidget.js: {}
+    /libraries/ajax-solr/src/drupal/widgets/CurrentSearchWidget.9.js: {}
+    /libraries/ajax-solr/core/AbstractTextWidget.js: {}
+    /libraries/ajax-solr/src/drupal/widgets/AutocompleteWidget.js: {}
   css:
     theme:
       https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css: {}
-      ajax_solr/src/css/solr_search.css: {}
+      /libraries/ajax-solr/src/drupal/css/solr_search.css: {}
   dependencies:
     - core/jquery
     - core/jquery.ui

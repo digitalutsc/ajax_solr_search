@@ -31,7 +31,6 @@ class AjaxSolrSearchConfigForm extends ConfigFormBase {
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
     $config = $this->config('ajax_solr_search.ajaxsolrsearchconfig');
-
     $form =  parent::buildForm($form, $form_state);
 
     $form['container'] = array(

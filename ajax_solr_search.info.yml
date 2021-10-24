@@ -1,4 +1,4 @@
-name: 'Ajax Solr Search'
+name: 'Ajax Solr for Drupal'
 type: module
 description: 'My Awesome Module'
 core_version_requirement: '^8 || ^9'
