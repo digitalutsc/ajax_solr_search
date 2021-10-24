@@ -1,13 +1,13 @@
 {
     "name": "ajax_solr_search",
     "type": "drupal-module",
-    "description": "My Awesome Module",
+    "description": "Drupal 8/9 module provide a user interface for the Federated Search functionality among all of Drupal sites which index content to one shared Solr core",
     "keywords": [
     ],
     "homepage": "https://www.drupal.org/project/ajax_solr_search",
     "minimum-stability": "dev",
     "support": {
         "issues": "https://www.drupal.org/project/issues/ajax_solr_search",
-        "source": "http://cgit.drupalcode.org/ajax_solr_search",
-    },
+        "source": "http://cgit.drupalcode.org/ajax_solr_search"
+    }
 }

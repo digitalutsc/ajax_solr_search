@@ -2,5 +2,5 @@ ajax_solr_search.ajax_solr_search_config_form:
   title: 'Ajax Solr Search Form'
   route_name: ajax_solr_search.ajax_solr_search_config_form
   description: 'A description for the menu entry'
-  parent: system.admin_config_system
+  parent: system.admin_config_search
   weight: 99
