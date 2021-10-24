@@ -13,14 +13,14 @@ We have developed this module to support search and retrieval using a core that 
 ## Requirements
 * A Solr endpoint
 * A shared Solr core which multisite sites indexing their contents into.
-* [Ajax Solr library](https://github.com/digitalutsc/ajax-solr/tree/islandora_lite) as dependency library.
+* [Ajax Solr library](https://github.com/digitalutsc/ajax-solr) as dependency library.
 * At `/admin/config/search/search-api/index/YOUR_SOLR_INDEX/fields` in each of exhibit sites, setup with Search API fields with the same `MACHINE NAME` and `TYPE`. For example:
   * Field `title`, setting the Machine Name is `title`, the Type is "Fulltext" as same throughout exhibit sites. Therefore, the title will be indexed to the same field name: `tm_X3b_en_title`
 
 ## Installation and configuration
 * Cloning this module to your module directory of your Drupal site:
   * `git clone https://github.com/digitalutsc/drupal_ajax_solr_search.git`
-* Clone the dependency [Ajax Solr library](https://github.com/digitalutsc/ajax-solr/tree/islandora_lite) with `islandora_lite` branch to Libraries directory (ie. drupal/web/libraries):
+* Clone the dependency [Ajax Solr library](https://github.com/digitalutsc/ajax-solr) with `islandora_lite` branch to Libraries directory (ie. drupal/web/libraries):
   * `git clone -b islandora_lite https://github.com/digitalutsc/ajax-solr.git`
 * Enable the module.
 * Visit `/admin/config/search/ajax_solr`, fill out the config form with Solr fields which are intented to search against (more in the screenshot below).
