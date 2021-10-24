@@ -29,6 +29,7 @@ We have developed this module to support search and retrieval using a core that 
 
 ## Usage
 * Visit the search page at `/federated-search`.
+* Live demo: https://find.digital.utsc.utoronto.ca/federated-search
 
 ## Please note:
 
