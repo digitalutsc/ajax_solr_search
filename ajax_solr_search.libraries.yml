@@ -1,24 +1,24 @@
 ajax_solr_search:
   js:
     https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js: {}
-    /libraries/ajax-solr/src/drupal/js/solr_search.js: {}
+    js/app/js/solr_search.js: {}
     /libraries/ajax-solr/core/Core.js: {}
     js/core/AbstractManager.js: {}
     js/managers/DSUManager.jquery.js: {}
     /libraries/ajax-solr/core/Parameter.js: {}
     /libraries/ajax-solr/core/ParameterStore.js: {}
     /libraries/ajax-solr/core/AbstractWidget.js: {}
-    /libraries/ajax-solr/src/drupal/widgets/ResultWidget.js: {}
-    /libraries/ajax-solr/src/drupal/widgets/widgets/jquery/PagerWidget.js: {}
+    js/app/widgets/ResultWidget.js: {}
+    js/app/widgets/widgets/jquery/PagerWidget.js: {}
     /libraries/ajax-solr/core/AbstractFacetWidget.js: {}
-    /libraries/ajax-solr/src/drupal/widgets/MultiSelectWidget.js: {}
-    /libraries/ajax-solr/src/drupal/widgets/CurrentSearchWidget.9.js: {}
+    js/app/widgets/MultiSelectWidget.js: {}
+    js/app/widgets/CurrentSearchWidget.9.js: {}
     /libraries/ajax-solr/core/AbstractTextWidget.js: {}
-    /libraries/ajax-solr/src/drupal/widgets/AutocompleteWidget.js: {}
+    js/app/widgets/AutocompleteWidget.js: {}
   css:
     theme:
       https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css: {}
-      /libraries/ajax-solr/src/drupal/css/solr_search.css: {}
+      js/app/css/solr_search.css: {}
   dependencies:
     - core/jquery
     - core/jquery.ui

@@ -1,5 +1,5 @@
 name: 'Ajax Solr for Drupal'
 type: module
-description: 'My Awesome Module'
+description: 'Drupal 8/9 module provide a user interface for the Federated Search functionality among all of Drupal sites which index content to one shared Solr core.'
 core_version_requirement: '^8 || ^9'
-package: 'Custom'
+package: 'Search'
