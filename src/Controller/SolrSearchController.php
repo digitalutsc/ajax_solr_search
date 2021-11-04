@@ -80,6 +80,7 @@ class SolrSearchController extends ControllerBase {
             'searchable_fields' => implode(",", $config->get("solr-searchable-fields")),
             'facets_fields' => json_encode($config->get("solr-facets-fields")),
             'results_html' => json_encode($config->get("solr-results-html")),
+            'output_template' => $config->get("output-template"),
           ],
         ],
       ],

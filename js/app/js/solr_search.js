@@ -7,6 +7,7 @@
           Manager = new AjaxSolr.Manager({
             solrUrl: (drupalSettings.ajax_solr_search.solr_url.substr(-1) !== '/') ? (drupalSettings.ajax_solr_search.solr_url + '/') : drupalSettings.ajax_solr_search.solr_url,
             proxyUrl: drupalSettings.ajax_solr_search.proxy_url,
+            outputTemplate: drupalSettings.ajax_solr_search.output_template,
           });
           Manager.addWidget(new AjaxSolr.ResultWidget({
             id: 'result',

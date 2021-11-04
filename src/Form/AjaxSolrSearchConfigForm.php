@@ -10,6 +10,16 @@ use Drupal\Core\Form\FormStateInterface;
  */
 class AjaxSolrSearchConfigForm extends ConfigFormBase {
 
+  const OUTPUT_TEMPLATE = '<div class="node">
+      <div class="thumbnail"><img src="{{ thumbnail }}" alt="thumbnail"/></div>
+      <div class="others">
+        <p><h2><a href="{{ url }}" target="_blank">{{ title }}</a></h2></p>
+        <p>{{ description }}</p>
+        {{ others }}
+      </div>
+      <hr />
+    </div>';
+
   /**
    * {@inheritdoc}
    */
@@ -150,14 +160,14 @@ class AjaxSolrSearchConfigForm extends ConfigFormBase {
         $form['container']['facets']['facets-field-name-' . $i] = [
           '#type' => 'select',
           '#options' => $mappedFields,
-          '#title' => $this->t('Field Name #' . ($i + 1)),
+          '#title' => $this->t('Solr Field Name #' . ($i + 1)),
           '#prefix' => '<div class="form--inline clearfix"><div class="form-item">',
           '#suffix' => '</div>',
           '#default_value' => (!empty($config->get("solr-facets-fields")[$i]['fname'])) ? $config->get("solr-facets-fields")[$i]['fname'] : '',
         ];
         $form['container']['facets']['facets-field-label-' . $i] = [
           '#type' => 'textfield',
-          '#title' => $this->t('Field Label #' . ($i + 1)),
+          '#title' => $this->t('Solr Field Label #' . ($i + 1)),
           '#description' => $this->t('Leave it empty to hide the label'),
           '#prefix' => '<div class="form-item">',
           '#suffix' => '</div></div>',
@@ -196,11 +206,15 @@ class AjaxSolrSearchConfigForm extends ConfigFormBase {
       if ($num_searchresults_fields === NULL) {
         if ($config->get("solr-facets-fields") !== NULL && count($config->get("solr-results-html")) > 0) {
           $num_searchresults_fields = count($config->get("solr-results-html"));
+          if ($num_searchresults_fields < 4) {
+            $num_searchresults_fields = 4;
+          }
           $name_field = $form_state->set('num_searchresults_fields', $num_searchresults_fields);
         }
         else {
+          // First time loaded.
           $name_field = $form_state->set('num_searchresults_fields', 1);
-          $num_searchresults_fields = 3;
+          $num_searchresults_fields = 4;
         }
 
       }
@@ -212,18 +226,28 @@ class AjaxSolrSearchConfigForm extends ConfigFormBase {
         '#suffix' => '</div>',
         '#tree' => TRUE,
       ];
+
       for ($i = 0; $i < $num_searchresults_fields; $i++) {
+        // Mandatory fields: title, thumbnail, and description.
         if ($i == 0) {
-          $field_label = 'Title Field';
+          $field_label = 'Thumbnail Field (mandatory)';
+          $require = TRUE;
         }
         elseif ($i == 1) {
-          $field_label = 'Thumbnail Field';
+          $field_label = 'Title Field (mandatory)';
+          $require = TRUE;
         }
         elseif ($i == 2) {
-          $field_label = 'Teaser Field';
+          $field_label = 'Description Field (mandatory)';
+          $require = TRUE;
+        }
+        elseif ($i == 3) {
+          $field_label = 'URL Field (mandatory)';
+          $require = TRUE;
         }
         else {
-          $field_label = 'Field Name #' . ($i + 1);
+          $field_label = 'Solr Field Name #' . ($i + 1). " (optional)";
+          $require = FALSE;
         }
         $form['container']['search-results']['results-field-name-' . $i] = [
           '#type' => 'select',
@@ -232,10 +256,12 @@ class AjaxSolrSearchConfigForm extends ConfigFormBase {
           '#prefix' => '<div class="form--inline clearfix"><div class="form-item">',
           '#suffix' => '</div>',
           '#default_value' => !empty($config->get("solr-results-html")[$i]['fname']) ? $config->get("solr-results-html")[$i]['fname'] : '',
+          '#required' => $require,
+          '#description' => !empty($config->get("solr-results-html")[$i]['fname']) ? "Token: {{ " .$config->get("solr-results-html")[$i]['fname'] . " }}" : ''
         ];
         $form['container']['search-results']['results-field-label-' . $i] = [
           '#type' => 'textfield',
-          '#title' => $this->t('Field Label #' . ($i + 1)),
+          '#title' => $this->t('Solr Field Label #' . ($i + 1)),
           '#description' => $this->t('Leave it empty to hide the label'),
           '#prefix' => '<div class="form-item">',
           '#suffix' => '</div></div>',
@@ -257,7 +283,7 @@ class AjaxSolrSearchConfigForm extends ConfigFormBase {
         ],
       ];
 
-      if ($num_searchresults_fields > 1) {
+      if ($num_searchresults_fields > 4) {
         $form['container']['search-results']['actions']['remove_search-results-field'] = [
           '#type' => 'submit',
           '#name' => 'remove_search-results-field',
@@ -269,11 +295,14 @@ class AjaxSolrSearchConfigForm extends ConfigFormBase {
           ],
         ];
       }
-      $form['container']['search-results']['actions']['textfields_container'] = [
+
+      // Override.
+      $form['container']['search-results']['textfields_container'] = [
         '#type' => 'container',
         '#attributes' => ['id' => 'textfields-container'],
+        '#weight' => 101
       ];
-      $form['container']['search-results']['actions']['textfields_container']['rewrite-search-results-output'] = [
+      $form['container']['search-results']['textfields_container']['rewrite-search-results-output'] = [
         '#type' => 'checkbox',
         '#title' => $this->t('Override Search Results Template'),
         '#default_value' => ($config->get("rewrite-search-results-output") !== NULL) ? $config->get("rewrite-search-results-output") : 0,
@@ -284,14 +313,32 @@ class AjaxSolrSearchConfigForm extends ConfigFormBase {
         ],
       ];
 
-      if ($form_state->getValues()['search-results']['actions']['textfields_container']['rewrite-search-results-output'] === 1 || $config->get("rewrite-search-results-output") === 1) {
-        $form['container']['search-results']['actions']['textfields_container']['rewrite-template'] = [
+
+
+      $override_output = $form_state->getValues()['search-results']['textfields_container']['rewrite-search-results-output'];
+      $override_config = $config->get("rewrite-search-results-output");
+
+      if ((!empty($override_output) && $override_output == 1) || (!empty($override_config) && $override_config == 1)) {
+        $form['container']['search-results']['textfields_container']['rewrite-template'] = [
           '#type' => 'textarea',
           '#title' => $this->t('Override with HTML Template:'),
           '#required' => TRUE,
-          '#default_value' => $this->t("<div></div>")
+          '#default_value' => ($config->get("output-template") !== NULL) ? $config->get("output-template") : self::OUTPUT_TEMPLATE,
         ];
       }
+      else {
+        $form['container']['search-results']['output'] = [
+          '#type' => 'details',
+          '#title' => 'Default Results Ouput',
+          '#weight' => 100
+        ];
+        $form['container']['search-results']['output']['template'] = [
+          '#type' => 'textarea',
+          '#attributes' => ['readonly' => 'readonly'],
+          "#default_value" => ($config->get("output-template") !== NULL) ? $config->get("output-template") : self::OUTPUT_TEMPLATE,
+        ];
+      }
+
 
     }
 
@@ -329,16 +376,51 @@ class AjaxSolrSearchConfigForm extends ConfigFormBase {
 
     $configFactory->set("solr-facets-fields", $facets_fields);
 
+    $template = $form_state->getValues()['container']['search-results']['actions']['textfields_container']['rewrite-template'];
+    $template = (isset($template) && !empty($template)) ? $template : self::OUTPUT_TEMPLATE;
     $results_fields = [];
+    $others = "";
     for ($i = 0; $i < $form_state->get('num_searchresults_fields'); $i++) {
       array_push($results_fields,
         [
           "fname" => $form_state->getValues()['search-results']['results-field-name-' . $i],
           'label' => $form_state->getValues()['search-results']['results-field-label-' . $i],
         ]);
+
+      // Replace token with field name.
+      if ($i == 0) {
+        // For thumbnail.
+        $template = str_replace("{{ thumbnail }}", "{{ " . $form_state->getValues()['search-results']['results-field-name-' . $i] . " }}", $template);
+      }
+      elseif ($i == 1) {
+        // For title.
+        $template = str_replace("{{ title }}", "{{ " . $form_state->getValues()['search-results']['results-field-name-' . $i] . " }}", $template);
+      }
+      elseif ($i == 2) {
+        // For url.
+        $template = str_replace("{{ description }}", "{{ " . $form_state->getValues()['search-results']['results-field-name-' . $i] . " }}", $template);
+      }
+      elseif ($i == 3) {
+        // For description.
+        $template = str_replace("{{ url }}", "{{ " . $form_state->getValues()['search-results']['results-field-name-' . $i] . " }}", $template);
+      }
+      else {
+        // For others.
+        $others .= "<p>";
+        $others .= "<strong>" . "{{ " . $form_state->getValues()['search-results']['results-field-label-' . $i] . " }}" . ": </strong>" . "{{ " . $form_state->getValues()['search-results']['results-field-name-' . $i] . " }}";
+        $others .= "</p>";
+      }
     }
+    $template = str_replace("{{ others }}", $others, $template);
+    $configFactory->set("output-template", $template);
     $configFactory->set("solr-results-html", $results_fields);
-    $configFactory->set("rewrite-search-results-output", $form_state->getValues()['search-results']['actions']['textfields_container']['rewrite-search-results-output']);
+
+    // If override mode is enabled, save the custom template instead.
+    $configFactory->set("rewrite-search-results-output", $form_state->getValues()['search-results']['textfields_container']['rewrite-search-results-output']);
+    if ($form_state->getValues()['search-results']['textfields_container']['rewrite-search-results-output'] === 1) {
+      $configFactory->set("output-template", $form_state->getValues()['search-results']['textfields_container']['rewrite-template']);
+    }
+
     $configFactory->save();
   }
 
@@ -518,7 +600,7 @@ class AjaxSolrSearchConfigForm extends ConfigFormBase {
    * returns it as a form (renderable array).
    */
   public function textfieldsCallback($form, FormStateInterface $form_state) {
-    return $form['container']['search-results']['actions']['textfields_container'];
+    return $form['container']['search-results']['textfields_container'];
   }
 
 }
