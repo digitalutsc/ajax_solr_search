@@ -98,8 +98,9 @@
           // thumbnail
           if (i == 1) {
             //console.log(doc['site']);
-            var imageurl = doc[this.result_html[i].fname][0];
-            var thumbnail = imageurl.replace("public://", (doc['site'] + "sites/default/files/"));
+            //var imageurl = doc[this.result_html[i].fname][0];
+            //var thumbnail = imageurl.replace("public://", (doc['site'] + "sites/default/files/"));
+            var thumbnail = doc[this.result_html[i].fname];
             value = "<img src='" + thumbnail + "' alt='thumbnail' class='search-result-thumbnail'/>";
           }
 
@@ -110,7 +111,7 @@
           if ( this.result_html[i].fname === "content" &&
             (!(this.isBlank(cur_doc_highlighting_txt) || /^\s*\.*\s*$/.test(cur_doc_highlighting_txt)))) {
             if (this.result_html[i].label) {
-              output += "<p><strong>"+this.result_html[i].label+"</strong>: " + cur_doc_highlighting_txt + "</p>";
+              output += "<p><strong>" + this.result_html[i].label + "</strong>: " + cur_doc_highlighting_txt + "</p>";
             }
             else {
               output += "<p>" + cur_doc_highlighting_txt + "</p>";
@@ -118,13 +119,12 @@
           }
           else {
             if (this.result_html[i].label) {
-              output += "<p><strong>"+this.result_html[i].label+"</strong>: " + value + "</p>";
+              output += "<p><strong>" + this.result_html[i].label + "</strong>: " + value + "</p>";
             }
             else {
               output += "<p>" + value + "</p>";
             }
           }
-
 
         }
       }
@@ -160,7 +160,8 @@
    * @returns {*}
    */
   function replaceURLs(message) {
-    if(!message) return;
+    if(!message) { return;
+    }
 
     var urlRegex = /(((https?:\/\/)|(www\.))[^\s]+)/g;
     return message.toString().replace(urlRegex, function (url) {

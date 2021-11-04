@@ -7,8 +7,7 @@ use Drupal\Core\Controller\ControllerBase;
 /**
  * Class SolrSearchController.
  */
-class SolrSearchController extends ControllerBase
-{
+class SolrSearchController extends ControllerBase {
 
   /**
    * Getsearchform.
@@ -16,15 +15,13 @@ class SolrSearchController extends ControllerBase
    * @return array
    *   Return Hello string.
    */
-  public function getSearchForm()
-  {
+  public function getSearchForm() {
     $config = \Drupal::config('ajax_solr_search.ajaxsolrsearchconfig');
 
     $facets_htmls = '';
     foreach ($config->get("solr-facets-fields") as $f) {
       $facets_htmls .= '<div style="margin-top: 20px"><h2>' . $f['label'] . '</h2><div class="tagcloud" id="' . $f['fname'] . '"></div></div>';
     }
-
 
     $search_form = '<div id="wrap">
       <div class="right">
@@ -69,7 +66,6 @@ class SolrSearchController extends ControllerBase
       }
     }
 
-
     return [
       '#type' => 'markup',
       '#markup' => $this->t($search_form),
@@ -81,11 +77,11 @@ class SolrSearchController extends ControllerBase
           'ajax_solr_search' => [
             'solr_url' => $config->get("solr-server-url"),
             'proxy_url' => $proxy_url,
-            'searchable_fields' => $config->get("solr-searchable-fields"),
+            'searchable_fields' => implode(",", $config->get("solr-searchable-fields")),
             'facets_fields' => json_encode($config->get("solr-facets-fields")),
-            'results_html' => json_encode($config->get("solr-results-html"))
-          ]
-        ]
+            'results_html' => json_encode($config->get("solr-results-html")),
+          ],
+        ],
       ],
     ];
   }

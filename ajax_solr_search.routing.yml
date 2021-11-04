@@ -23,3 +23,11 @@ ajax_solr_search.proxy_solr_controller_select:
     _title: 'Proxy Controller for Solr'
   requirements:
     _permission: 'access content'
+
+ajax_solr_search.proxy_solr_controller_fields:
+    path: '/solr/{core}/fields'
+    defaults:
+      _controller: '\Drupal\ajax_solr_search\Controller\ProxySolrController::fields'
+      _title: 'Proxy Controller for Solr'
+    requirements:
+      _permission: 'access content'

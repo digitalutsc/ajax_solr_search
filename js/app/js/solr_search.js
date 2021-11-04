@@ -2,7 +2,7 @@
   Drupal.behaviors.d8_scholarship_frontBehavior = {
     attach: function (context, settings) {
 
-      $(document).ready(function() {
+      $(document).ready(function () {
           var Manager;
           Manager = new AjaxSolr.Manager({
             solrUrl: (drupalSettings.ajax_solr_search.solr_url.substr(-1) !== '/') ? (drupalSettings.ajax_solr_search.solr_url + '/') : drupalSettings.ajax_solr_search.solr_url,
@@ -99,8 +99,3 @@
     }
   }
 })(jQuery, Drupal, drupalSettings);
-
-
-
-
-
