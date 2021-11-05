@@ -12,14 +12,20 @@
 .node {
   display:flex;
 }
-.thumbnail {
+.thumb {
   flex: 30%;
-  padding: 25px 20px 0 0;
+  padding-right: 20px;
 }
 .others {
   flex:70%;
 }
-.thumbnail:empty {
+.thumb:empty {
+  display:none;
+}
+.thumb img {
+      max-width: 100% !important;
+}
+p:empty{
   display:none;
 }
 

@@ -11,14 +11,15 @@ use Drupal\Core\Form\FormStateInterface;
 class AjaxSolrSearchConfigForm extends ConfigFormBase {
 
   const OUTPUT_TEMPLATE = '<div class="node">
-      <div class="thumbnail"><img src="{{ thumbnail }}" alt="thumbnail"/></div>
+      <div class="thumb"><img src="{{ thumbnail }}" alt="thumbnail"/></div>
       <div class="others">
         <p><h2><a href="{{ url }}" target="_blank">{{ title }}</a></h2></p>
         <p>{{ description }}</p>
         {{ others }}
       </div>
-      <hr />
-    </div>';
+    </div>
+    <hr />
+   ';
 
   /**
    * {@inheritdoc}
