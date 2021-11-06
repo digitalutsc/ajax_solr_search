@@ -52,7 +52,6 @@ class AjaxSolrSearchConfigForm extends ConfigFormBase {
       '#type' => 'details',
       '#title' => 'Solr Settings',
       '#open' => TRUE,
-
     ];
 
     $form['container']['solr-config']['server-url'] = [
@@ -72,6 +71,22 @@ class AjaxSolrSearchConfigForm extends ConfigFormBase {
     ];
 
     if ($config->get("solr-server-url") !== NULL) {
+
+      $form['container']['sarch-results-page'] = [
+        '#type' => 'details',
+        '#title' => 'Search Results Page',
+        '#open' => TRUE,
+      ];
+
+      $form['container']['sarch-results-page']['sarch-results-page-path'] = [
+        '#type' => 'textfield',
+        '#title' => $this->t('Search results page path'),
+        '#default_value' => (!empty($config->get('search-results-path')) ? $config->get('search-results-path') : '/federated-search'),
+        '#description' => $this
+          ->t('Default: "/federated-search"'),
+      ];
+
+
       if ($config->get("solr-proxy-enabled") == 1) {
         global $base_url;
         $mappedFields = $this->getMappedFieldsOptions($this->requestMappedFieldsFromSolr("$base_url/solr/multisite"));
@@ -247,7 +262,7 @@ class AjaxSolrSearchConfigForm extends ConfigFormBase {
           $require = TRUE;
         }
         else {
-          $field_label = 'Solr Field Name #' . ($i + 1). " (optional)";
+          $field_label = 'Solr Field Name #' . ($i + 1) . " (optional)";
           $require = FALSE;
         }
         $form['container']['search-results']['results-field-name-' . $i] = [
@@ -258,7 +273,7 @@ class AjaxSolrSearchConfigForm extends ConfigFormBase {
           '#suffix' => '</div>',
           '#default_value' => !empty($config->get("solr-results-html")[$i]['fname']) ? $config->get("solr-results-html")[$i]['fname'] : '',
           '#required' => $require,
-          '#description' => !empty($config->get("solr-results-html")[$i]['fname']) ? "Token: {{ " .$config->get("solr-results-html")[$i]['fname'] . " }}" : ''
+          '#description' => !empty($config->get("solr-results-html")[$i]['fname']) ? "Token: {{ " . $config->get("solr-results-html")[$i]['fname'] . " }}" : '',
         ];
         $form['container']['search-results']['results-field-label-' . $i] = [
           '#type' => 'textfield',
@@ -301,7 +316,7 @@ class AjaxSolrSearchConfigForm extends ConfigFormBase {
       $form['container']['search-results']['textfields_container'] = [
         '#type' => 'container',
         '#attributes' => ['id' => 'textfields-container'],
-        '#weight' => 101
+        '#weight' => 101,
       ];
       $form['container']['search-results']['textfields_container']['rewrite-search-results-output'] = [
         '#type' => 'checkbox',
@@ -313,8 +328,6 @@ class AjaxSolrSearchConfigForm extends ConfigFormBase {
           'effect' => 'fade',
         ],
       ];
-
-
 
       $override_output = $form_state->getValues()['search-results']['textfields_container']['rewrite-search-results-output'];
       $override_config = $config->get("rewrite-search-results-output");
@@ -331,7 +344,7 @@ class AjaxSolrSearchConfigForm extends ConfigFormBase {
         $form['container']['search-results']['output'] = [
           '#type' => 'details',
           '#title' => 'Default Results Ouput',
-          '#weight' => 100
+          '#weight' => 100,
         ];
         $form['container']['search-results']['output']['template'] = [
           '#type' => 'textarea',
@@ -339,7 +352,6 @@ class AjaxSolrSearchConfigForm extends ConfigFormBase {
           "#default_value" => ($config->get("output-template") !== NULL) ? $config->get("output-template") : self::OUTPUT_TEMPLATE,
         ];
       }
-
 
     }
 
@@ -357,6 +369,8 @@ class AjaxSolrSearchConfigForm extends ConfigFormBase {
 
     $configFactory->set("solr-server-url", $form_state->getValues()['server-url']);
     $configFactory->set("solr-proxy-enabled", $form_state->getValues()['enable-proxy']);
+
+    $configFactory->set("search-results-path", $form_state->getValues()['sarch-results-page-path']);
 
     $searchable_fields = [];
     for ($i = 0; $i < $form_state->get('num_searchable_fields'); $i++) {

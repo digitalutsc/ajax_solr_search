@@ -10,23 +10,23 @@
 }
 
 .node {
-  display:flex;
+  display: flex;
 }
 .thumb {
   flex: 30%;
-  padding-right: 20px;
+  padding: 25px 20px 0 0;
 }
 .others {
-  flex:70%;
+  flex: 70%;
 }
 .thumb:empty {
-  display:none;
+  display: none;
 }
 .thumb img {
-      max-width: 100% !important;
+  max-width: 100% !important;
 }
-p:empty{
-  display:none;
+p:empty {
+  display: none;
 }
 
 /* right */

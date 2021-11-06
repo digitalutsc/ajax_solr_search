@@ -10,8 +10,7 @@ use Drupal\Core\Routing\RouteMatchInterface;
 /**
  * Implements hook_help().
  */
-function ajax_solr_search_help($route_name, RouteMatchInterface $route_match)
-{
+function ajax_solr_search_help($route_name, RouteMatchInterface $route_match) {
   switch ($route_name) {
     // Main module help for the ajax_solr_search module.
     case 'help.page.ajax_solr_search':
@@ -27,8 +26,7 @@ function ajax_solr_search_help($route_name, RouteMatchInterface $route_match)
 /**
  * Implements hook_theme().
  */
-function ajax_solr_search_theme()
-{
+function ajax_solr_search_theme(): array {
   return [
     'ajax_solr_search' => [
       'render element' => 'children',
@@ -37,11 +35,9 @@ function ajax_solr_search_theme()
 }
 
 /**
- * Implements hook_requirements
- * @return array
+ * Implements hook_requirements().
  */
-function ajax_solr_search_requirements($phase)
-{
+function ajax_solr_search_requirements($phase): array {
   print_log("ajax_solr_search_requirements");
   $library_name = 'ajax_solr';
   $library_path = '/libraries/' . $library_name;
@@ -72,28 +68,85 @@ function ajax_solr_search_requirements($phase)
   return $requirements;
 }
 
-
 /**
- * Debug function: display any variable to error log
+ * Debug function: display any variable to error log.
  *
  * @param $thing
  */
 if (!function_exists('print_log')) {
-  function print_log($thing)
-  {
-    error_log(print_r($thing, true), 0);
+
+  /**
+   * Logging in apache log.
+   */
+  function print_log($thing) {
+    error_log(print_r($thing, TRUE), 0);
   }
 
 }
 /**
- * Debug function: display any variable to current webpage
+ * Debug function: display any variable to current webpage.
+ *
  * @param $thing
  */
 if (!function_exists('logging')) {
-  function logging($thing)
-  {
+
+  /**
+   * Logging in webpage.
+   */
+  function logging($thing) {
     echo "<pre>";
     print_r($thing);
     echo "</pre>";
   }
+
+}
+
+/**
+ * Debug function: display any variable to drupal Reports Log messages.
+ */
+if (!function_exists('drupal_log')) {
+
+  /**
+   * Logging in Recent Log messages.
+   */
+  function drupal_log($msg, $type = "error") {
+    switch ($type) {
+      case "notice":
+        \Drupal::logger(basename(__FILE__, '.module'))->notice($msg);
+        break;
+
+      case "log":
+        \Drupal::logger(basename(__FILE__, '.module'))->log(RfcLogLevel::NOTICE, $msg);
+        break;
+
+      case "warning":
+        \Drupal::logger(basename(__FILE__, '.module'))->warning($msg);
+        break;
+
+      case "alert":
+        \Drupal::logger(basename(__FILE__, '.module'))->alert($msg);
+        break;
+
+      case "critical":
+        \Drupal::logger(basename(__FILE__, '.module'))->critical($msg);
+        break;
+
+      case "debug":
+        \Drupal::logger(basename(__FILE__, '.module'))->debug($msg);
+        break;
+
+      case "info":
+        \Drupal::logger(basename(__FILE__, '.module'))->info($msg);
+        break;
+
+      case "emergency":
+        \Drupal::logger(basename(__FILE__, '.module'))->emergency($msg);
+        break;
+
+      default:
+        \Drupal::logger(basename(__FILE__, '.module'))->error($msg);
+        break;
+    }
+  }
+
 }

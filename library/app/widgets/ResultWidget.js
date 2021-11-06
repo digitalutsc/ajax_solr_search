@@ -86,37 +86,32 @@
 
       var output = this.manager.outputTemplate;
 
-      for (var i = 0; i < this.result_html.length; i++ ) {
+      for (var i = 0; i < this.result_html.length; i++) {
         if (doc[this.result_html[i].fname] !== undefined) {
           if (i < 4) {
-            if (i == 0  && (!doc[this.result_html[i].fname].includes(doc['site']))) {
+            if (i == 0 && (!doc[this.result_html[i].fname].includes(doc['site']))) {
               console.log(doc[this.result_html[i].fname].toString());
               output = output.replace("{{ " + this.result_html[i].fname + " }}", doc['site'] + doc[this.result_html[i].fname]);
-            }
-	    else if (doc[this.result_html[i].fname].toString().length > 1000) {
+            } else if (doc[this.result_html[i].fname].toString().length > 1000) {
               output = output.replace("{{ " + this.result_html[i].fname + " }}", doc[this.result_html[i].fname].toString().substring(0, 1000) + "  [...]");
-            }
-            else {
+            } else {
               output = output.replace("{{ " + this.result_html[i].fname + " }}", doc[this.result_html[i].fname]);
             }
-          }
-          else {
+          } else {
             // others
             output = output.replace("{{ " + this.result_html[i].label + " }}", this.result_html[i].label);
             output = output.replace("{{ " + this.result_html[i].fname + " }}", doc[this.result_html[i].fname]);
           }
-        }
-        else {
+        } else {
           if (i === 0) {
             // if no thumbnail, remove <img/>.
             var token = "{{ " + this.result_html[i].fname + " }}";
             var rgxp = new RegExp('<img [^>]*src="' + token + '"[^>]*>', "gm");
             var img = output.match(rgxp);
             output = output.replace(img, "");
-          }
-          else {
+          } else {
             output = output.replace("{{ " + this.result_html[i].fname + " }}", "");
-	  }
+          }
         }
       }
       return output;
@@ -150,7 +145,8 @@
    * @returns {*}
    */
   function replaceURLs(message) {
-    if(!message) { return;
+    if (!message) {
+      return;
     }
 
     var urlRegex = /(((https?:\/\/)|(www\.))[^\s]+)/g;

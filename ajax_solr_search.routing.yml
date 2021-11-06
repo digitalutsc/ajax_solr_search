@@ -8,13 +8,8 @@ ajax_solr_search.ajax_solr_search_config_form:
   options:
     _admin_route: TRUE
 
-ajax_solr_search.solr_search_controller_getSearchForm:
-  path: '/federated-search'
-  defaults:
-    _controller: '\Drupal\ajax_solr_search\Controller\SolrSearchController::getSearchForm'
-    _title: ''
-  requirements:
-    _permission: 'access content'
+route_callbacks:
+  - '\Drupal\ajax_solr_search\Routing\AjaxSolrSearchRoutes::routes'
 
 ajax_solr_search.proxy_solr_controller_select:
   path: '/solr/{core}/select'
