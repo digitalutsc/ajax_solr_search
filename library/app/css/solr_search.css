@@ -41,9 +41,13 @@ p:empty {
 #result a {
   margin-right: 5px;
 }
-/*#navigation {
-  border-bottom: 1px solid #000;
-}*/
+#navigation {
+  /*border-bottom: 1px solid #000;*/
+}
+div.pager {
+  padding-bottom: 25px;
+  text-align: center;
+}
 #pager {
 }
 #pager li a {

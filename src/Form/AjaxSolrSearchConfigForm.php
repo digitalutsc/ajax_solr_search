@@ -329,7 +329,9 @@ class AjaxSolrSearchConfigForm extends ConfigFormBase {
         ],
       ];
 
-      $override_output = $form_state->getValues()['search-results']['textfields_container']['rewrite-search-results-output'];
+      if (isset($form_state->getValues()['search-results']['textfields_container']['rewrite-search-results-output'])) {
+        $override_output = $form_state->getValues()['search-results']['textfields_container']['rewrite-search-results-output'];
+      }
       $override_config = $config->get("rewrite-search-results-output");
 
       if ((!empty($override_output) && $override_output == 1) || (!empty($override_config) && $override_config == 1)) {
@@ -391,7 +393,9 @@ class AjaxSolrSearchConfigForm extends ConfigFormBase {
 
     $configFactory->set("solr-facets-fields", $facets_fields);
 
-    $template = $form_state->getValues()['container']['search-results']['actions']['textfields_container']['rewrite-template'];
+    if (isset($form_state->getValues()['container']['search-results']['actions']['textfields_container']['rewrite-template'])) {
+      $template = $form_state->getValues()['container']['search-results']['actions']['textfields_container']['rewrite-template'];
+    }
     $template = (isset($template) && !empty($template)) ? $template : self::OUTPUT_TEMPLATE;
     $results_fields = [];
     $others = "";

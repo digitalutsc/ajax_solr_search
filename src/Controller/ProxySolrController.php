@@ -17,6 +17,9 @@ class ProxySolrController extends ControllerBase {
    *   Return Hello string.
    */
   public function select($core) {
+    if (isset($_POST['query'])) {
+      return new JsonResponse(json_decode("Not a valid query"));
+    }
     // Get Solr URL saved in config form.
     $config = \Drupal::config('ajax_solr_search.ajaxsolrsearchconfig');
 

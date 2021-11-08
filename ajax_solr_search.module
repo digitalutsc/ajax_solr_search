@@ -38,7 +38,6 @@ function ajax_solr_search_theme(): array {
  * Implements hook_requirements().
  */
 function ajax_solr_search_requirements($phase): array {
-  print_log("ajax_solr_search_requirements");
   $library_name = 'ajax_solr';
   $library_path = '/libraries/' . $library_name;
   $library_exists = (file_exists(DRUPAL_ROOT . $library_path)) ? TRUE : FALSE;

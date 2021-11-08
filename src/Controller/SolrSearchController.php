@@ -28,7 +28,9 @@ class SolrSearchController extends ControllerBase {
         <div id="result">
           <div id="navigation">
             <div id="pager-header"></div>
-            <ul id="pager"></ul>
+            <div class="pager">
+                <ul id="pager"></ul>
+            </div>
           </div>
 
           <div id="docs" data-content=""></div>

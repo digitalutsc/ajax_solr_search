@@ -53,7 +53,7 @@ class AjaxSolrSearchRoutes implements ContainerInjectionInterface {
       '_title' => 'Search',
     ];
 
-    $routes['search_api_federated_solr.search'] = new Route($path, $args, ['_permission' => 'access content']);
+    $routes['ajax_solr_search.federated_search_page'] = new Route($path, $args, ['_permission' => 'access content']);
 
     return $routes;
   }
