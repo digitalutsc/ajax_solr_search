@@ -9,10 +9,26 @@
   border: 1px solid #ccc !important;
 }
 
-.search-result-thumbnail {
-  width: 30%;
-  /*float:left;*/
+.node {
+  display: flex;
 }
+.thumb {
+  flex: 30%;
+  padding: 25px 20px 0 0;
+}
+.others {
+  flex: 70%;
+}
+.thumb:empty {
+  display: none;
+}
+.thumb img {
+  max-width: 100% !important;
+}
+p:empty {
+  display: none;
+}
+
 /* right */
 
 .right {
@@ -25,9 +41,13 @@
 #result a {
   margin-right: 5px;
 }
-/*#navigation {
-  border-bottom: 1px solid #000;
-}*/
+#navigation {
+  /*border-bottom: 1px solid #000;*/
+}
+div.pager {
+  padding-bottom: 25px;
+  text-align: center;
+}
 #pager {
 }
 #pager li a {
@@ -47,8 +67,8 @@
 }
 
 .tagcloud label {
-  display:inline;
-  padding-left:5px;
+  display: inline;
+  padding-left: 5px;
 }
 
 #selection {
@@ -69,7 +89,7 @@
   width: 35%;
 }
 .left h2 {
-  margin : 0 !important;
+  margin: 0 !important;
   text-align: left !important;
 }
 #search input {
@@ -104,10 +124,9 @@ a.tagcloud_size_1 {
 }
 a.tagcloud_size_2 {
   font-size: 100%;
-}Rst
- a.tagcloud_size_3 {
-   font-size: 110%;
- }
+}Rst a.tagcloud_size_3 {
+  font-size: 110%;
+}
 a.tagcloud_size_4 {
   font-size: 120%;
 }

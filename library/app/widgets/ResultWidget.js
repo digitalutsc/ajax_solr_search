@@ -4,7 +4,7 @@
     start: 0,
 
     beforeRequest: function () {
-      //$(this.target).html($('<img>').attr('src', '../images/ajax-loader.gif'));
+      $(this.target).html($('<img>').attr('src', '../../images/ajax-loader.gif'));
     },
 
     facetLinks: function (facet_field, facet_values) {
@@ -78,57 +78,42 @@
     },
 
     template: function (doc, highlighting) {
-
       var snippet = '';
       var cur_doc_highlighting_txt;
       if (this.highlighting && highlighting) {
         cur_doc_highlighting_txt = this.getDocSnippets(highlighting, doc);
       }
 
-      var output = '<div>';
-      for (var i = 0; i < this.result_html.length; i++ ) {
+      var output = this.manager.outputTemplate;
+
+      for (var i = 0; i < this.result_html.length; i++) {
         if (doc[this.result_html[i].fname] !== undefined) {
-          // process value
-          var value = replaceURLs(doc[this.result_html[i].fname]);
-
-          // title
-          if (i == 0) {
-            value = "<h2>" + replaceURLs(doc[this.result_html[i].fname]) + "</h2>";
-          }
-          // thumbnail
-          if (i == 1) {
-            //console.log(doc['site']);
-            var imageurl = doc[this.result_html[i].fname][0];
-            var thumbnail = imageurl.replace("public://", (doc['site'] + "sites/default/files/"));
-            value = "<img src='" + thumbnail + "' alt='thumbnail' class='search-result-thumbnail'/>";
-          }
-
-          if (doc[this.result_html[i].fname].length > 280) {
-            value = doc[this.result_html[i].fname].substring(0, 280) + " ...";
-          }
-
-          if ( this.result_html[i].fname === "content" &&
-            (!(this.isBlank(cur_doc_highlighting_txt) || /^\s*\.*\s*$/.test(cur_doc_highlighting_txt)))) {
-            if (this.result_html[i].label) {
-              output += "<p><strong>"+this.result_html[i].label+"</strong>: " + cur_doc_highlighting_txt + "</p>";
+          if (i < 4) {
+            if (i == 0 && (!doc[this.result_html[i].fname].includes(doc['site']))) {
+              console.log(doc[this.result_html[i].fname].toString());
+              output = output.replace("{{ " + this.result_html[i].fname + " }}", doc['site'] + doc[this.result_html[i].fname]);
+            } else if (doc[this.result_html[i].fname].toString().length > 1000) {
+              output = output.replace("{{ " + this.result_html[i].fname + " }}", doc[this.result_html[i].fname].toString().substring(0, 1000) + "  [...]");
+            } else {
+              output = output.replace("{{ " + this.result_html[i].fname + " }}", doc[this.result_html[i].fname]);
             }
-            else {
-              output += "<p>" + cur_doc_highlighting_txt + "</p>";
-            }
+          } else {
+            // others
+            output = output.replace("{{ " + this.result_html[i].label + " }}", this.result_html[i].label);
+            output = output.replace("{{ " + this.result_html[i].fname + " }}", doc[this.result_html[i].fname]);
           }
-          else {
-            if (this.result_html[i].label) {
-              output += "<p><strong>"+this.result_html[i].label+"</strong>: " + value + "</p>";
-            }
-            else {
-              output += "<p>" + value + "</p>";
-            }
+        } else {
+          if (i === 0) {
+            // if no thumbnail, remove <img/>.
+            var token = "{{ " + this.result_html[i].fname + " }}";
+            var rgxp = new RegExp('<img [^>]*src="' + token + '"[^>]*>', "gm");
+            var img = output.match(rgxp);
+            output = output.replace(img, "");
+          } else {
+            output = output.replace("{{ " + this.result_html[i].fname + " }}", "");
           }
-
-
         }
       }
-      output += '<hr /></div>';
       return output;
     },
 
@@ -160,7 +145,9 @@
    * @returns {*}
    */
   function replaceURLs(message) {
-    if(!message) return;
+    if (!message) {
+      return;
+    }
 
     var urlRegex = /(((https?:\/\/)|(www\.))[^\s]+)/g;
     return message.toString().replace(urlRegex, function (url) {
