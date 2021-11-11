@@ -26,12 +26,13 @@ function ajax_solr_search_requirements($phase): array {
     $arguments = [
       ':docs' => 'https://www.drupal.org/docs/8/theming-drupal-8/adding-stylesheets-css-and-javascript-js-to-a-drupal-8-theme#external',
       ':readme' => 'https://github.com/digitalutsc/drupal_ajax_solr_search/blob/main/README.md',
+      ':lib' => DRUPAL_ROOT . $library_path,
     ];
     $requirements['ajax_solr_search_library'] = [
       'title' => t('Ajax Solr for Drupal'),
       'value' => t('Ajax Solr for Drupal module is not installed.'),
       'severity' => REQUIREMENT_ERROR,
-      'description' => t('The AJAX Solr library is not installed in <code>'.DRUPAL_ROOT . $library_path.'</code>, check the <a href="https://github.com/digitalutsc/drupal_ajax_solr/blob/main/README.md">README.md for more information</a> and <a href=":docs">the documentation for information on how to install a library</a>.', $arguments),
+      'description' => t('The AJAX Solr library is not installed in <code>:lib</code>, check the <a href="https://github.com/digitalutsc/drupal_ajax_solr/blob/main/README.md">README.md for more information</a> and <a href=":docs">the documentation for information on how to install a library</a>.', $arguments),
     ];
   }
 
