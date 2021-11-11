@@ -21,7 +21,7 @@ At Digital Scholarship Unit - UTSC Library, we have developed this module to sup
 | Thumbnail      | thumbnail       | String       | ss_thumbnail       |
 | Title   | title        | Fulltext       | tm_title       |
 | Description   | description        | Fulltext       | tm_description       |
-| URL   | url        | String       | sm_url       |
+| URI (search_api_url)   | url        | String       | sm_url       |
 | Other optional fields to add...   | ...        | ...       | ...       |
 
 ## Installation and configuration

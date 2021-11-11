@@ -4,6 +4,7 @@ namespace Drupal\ajax_solr_search\Form;
 
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Messenger\MessengerInterface;
 
 /**
  * Class AjaxSolrSearchConfigForm.
@@ -70,7 +71,20 @@ class AjaxSolrSearchConfigForm extends ConfigFormBase {
       '#default_value' => ($config->get("solr-proxy-enabled") !== NULL) ? $config->get("solr-proxy-enabled") : 0,
     ];
 
-    if ($config->get("solr-server-url") !== NULL) {
+    if (!empty($config->get("solr-server-url"))) {
+      if ($config->get("solr-proxy-enabled") == 1) {
+        global $base_url;
+        $mappedFields = $this->getMappedFieldsOptions($this->requestMappedFieldsFromSolr("$base_url/solr/multisite"));
+      }
+      else {
+        $mappedFields = $this->getMappedFieldsOptions($this->requestMappedFieldsFromSolr($config->get("solr-server-url")));
+      }
+
+      // Only return $form if the Solr URL is active.
+      if ($mappedFields === FALSE) {
+        \Drupal::messenger()->addMessage("Unable to connect with Solr Endpoint. Please check the SORL Endpoint URL again.", MessengerInterface::TYPE_ERROR);
+        return $form;
+      }
 
       $form['container']['sarch-results-page'] = [
         '#type' => 'details',
@@ -85,15 +99,6 @@ class AjaxSolrSearchConfigForm extends ConfigFormBase {
         '#description' => $this
           ->t('Default: "/federated-search"'),
       ];
-
-
-      if ($config->get("solr-proxy-enabled") == 1) {
-        global $base_url;
-        $mappedFields = $this->getMappedFieldsOptions($this->requestMappedFieldsFromSolr("$base_url/solr/multisite"));
-      }
-      else {
-        $mappedFields = $this->getMappedFieldsOptions($this->requestMappedFieldsFromSolr($config->get("solr-server-url")));
-      }
 
       $num_searchable_fields = $form_state->get('num_searchable_fields');
       if ($num_searchable_fields === NULL) {
@@ -600,14 +605,20 @@ class AjaxSolrSearchConfigForm extends ConfigFormBase {
   /**
    * Convert rest response to options array.
    */
-  public function getMappedFieldsOptions(string $response): array {
+  public function getMappedFieldsOptions(string $response) {
+    if (stripos($response, "HTTP ERROR") !== FALSE) {
+      return FALSE;
+    }
+
     $response = str_replace('"', "", $response);
     $response = str_replace('\n', "", $response);
     $fields = explode(",", $response);
     sort($fields);
     $options = [-1 => '--- Select a field ---'];
     foreach ($fields as $field) {
-      $options[$field] = $field;
+      if (!empty($field) && strlen(trim($field)) !== 0) {
+        $options[$field] = $field;
+      }
     }
     return $options;
   }

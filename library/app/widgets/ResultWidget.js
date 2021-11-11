@@ -90,7 +90,6 @@
         if (doc[this.result_html[i].fname] !== undefined) {
           if (i < 4) {
             if (i == 0 && (!doc[this.result_html[i].fname].includes(doc['site']))) {
-              console.log(doc[this.result_html[i].fname].toString());
               output = output.replace("{{ " + this.result_html[i].fname + " }}", doc['site'] + doc[this.result_html[i].fname]);
             } else if (doc[this.result_html[i].fname].toString().length > 1000) {
               output = output.replace("{{ " + this.result_html[i].fname + " }}", doc[this.result_html[i].fname].toString().substring(0, 1000) + "  [...]");
