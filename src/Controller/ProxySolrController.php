@@ -17,7 +17,7 @@ class ProxySolrController extends ControllerBase {
    *   Return Hello string.
    */
   public function select($core) {
-    if ($_POST['query'] === null) {
+    if ($_POST['query'] === NULL) {
       return new JsonResponse(json_decode("Not a valid query"));
     }
     // Get Solr URL saved in config form.

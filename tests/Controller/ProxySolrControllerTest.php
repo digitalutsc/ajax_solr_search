@@ -9,7 +9,6 @@ use Drupal\simpletest\WebTestBase;
  */
 class ProxySolrControllerTest extends WebTestBase {
 
-
   /**
    * {@inheritdoc}
    */
@@ -19,13 +18,6 @@ class ProxySolrControllerTest extends WebTestBase {
       'description' => 'Test Unit for module ajax_solr_search and controller ProxySolrController.',
       'group' => 'Other',
     ];
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function setUp() {
-    parent::setUp();
   }
 
   /**

@@ -2,12 +2,13 @@
 
 namespace Drupal\ajax_solr_search\Form;
 
+use Drupal\Component\Render\FormattableMarkup;
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Messenger\MessengerInterface;
 
 /**
- * Class AjaxSolrSearchConfigForm.
+ * Class AjaxSolrSearchConfigForm definition.
  */
 class AjaxSolrSearchConfigForm extends ConfigFormBase {
 
@@ -123,7 +124,7 @@ class AjaxSolrSearchConfigForm extends ConfigFormBase {
       for ($i = 0; $i < $num_searchable_fields; $i++) {
         $form['container']['searchable']['searchable-fields-' . $i] = [
           '#type' => 'select',
-          '#title' => $this->t('Select Solr Search field #' . ($i + 1) . ':'),
+          '#title' => new FormattableMarkup('Select Solr Search field #' . ($i + 1) . ':', []),
           '#options' => $mappedFields,
           '#default_value' => (!empty($config->get("solr-searchable-fields")[$i])) ? $config->get("solr-searchable-fields")[$i] : '',
         ];
@@ -181,14 +182,14 @@ class AjaxSolrSearchConfigForm extends ConfigFormBase {
         $form['container']['facets']['facets-field-name-' . $i] = [
           '#type' => 'select',
           '#options' => $mappedFields,
-          '#title' => $this->t('Solr Field Name #' . ($i + 1)),
+          '#title' => new FormattableMarkup('Solr Field Name #' . ($i + 1), []),
           '#prefix' => '<div class="form--inline clearfix"><div class="form-item">',
           '#suffix' => '</div>',
           '#default_value' => (!empty($config->get("solr-facets-fields")[$i]['fname'])) ? $config->get("solr-facets-fields")[$i]['fname'] : '',
         ];
         $form['container']['facets']['facets-field-label-' . $i] = [
           '#type' => 'textfield',
-          '#title' => $this->t('Solr Field Label #' . ($i + 1)),
+          '#title' => new FormattableMarkup('Solr Field Label #' . ($i + 1), []),
           '#description' => $this->t('Leave it empty to hide the label'),
           '#prefix' => '<div class="form-item">',
           '#suffix' => '</div></div>',
@@ -273,7 +274,7 @@ class AjaxSolrSearchConfigForm extends ConfigFormBase {
         $form['container']['search-results']['results-field-name-' . $i] = [
           '#type' => 'select',
           '#options' => $mappedFields,
-          '#title' => $this->t($field_label),
+          '#title' => new FormattableMarkup($field_label, []),
           '#prefix' => '<div class="form--inline clearfix"><div class="form-item">',
           '#suffix' => '</div>',
           '#default_value' => !empty($config->get("solr-results-html")[$i]['fname']) ? $config->get("solr-results-html")[$i]['fname'] : '',
@@ -282,7 +283,7 @@ class AjaxSolrSearchConfigForm extends ConfigFormBase {
         ];
         $form['container']['search-results']['results-field-label-' . $i] = [
           '#type' => 'textfield',
-          '#title' => $this->t('Solr Field Label #' . ($i + 1)),
+          '#title' => new FormattableMarkup('Solr Field Label #' . ($i + 1), []),
           '#description' => $this->t('Leave it empty to hide the label'),
           '#prefix' => '<div class="form-item">',
           '#suffix' => '</div></div>',
@@ -385,8 +386,6 @@ class AjaxSolrSearchConfigForm extends ConfigFormBase {
     }
     $configFactory->set("solr-searchable-fields", $searchable_fields);
 
-    // $configFactory->set("solr-facets-fields", $form_state->getValues()['facets-fields']);
-    // $configFactory->set("solr-results-html", $form_state->getValues()['results-html']);
     $facets_fields = [];
     for ($i = 0; $i < $form_state->get('num_facets_fields'); $i++) {
       array_push($facets_fields,
@@ -466,9 +465,6 @@ class AjaxSolrSearchConfigForm extends ConfigFormBase {
     $name_field = $form_state->get('num_facets_fields');
     $add_button = $name_field + 1;
     $form_state->set('num_facets_fields', $add_button);
-    // Since our buildForm() method relies on the value of 'num_facets_fields' to
-    // generate 'name' form elements, we have to tell the form to rebuild. If we
-    // don't do this, the form builder will not call buildForm().
     $form_state->setRebuild();
   }
 
@@ -483,9 +479,6 @@ class AjaxSolrSearchConfigForm extends ConfigFormBase {
       $remove_button = $name_field - 1;
       $form_state->set('num_facets_fields', $remove_button);
     }
-    // Since our buildForm() method relies on the value of 'num_facets_fields' to
-    // generate 'name' form elements, we have to tell the form to rebuild. If we
-    // don't do this, the form builder will not call buildForm().
     $form_state->setRebuild();
   }
 
@@ -507,9 +500,6 @@ class AjaxSolrSearchConfigForm extends ConfigFormBase {
     $name_field = $form_state->get('num_searchresults_fields');
     $add_button = $name_field + 1;
     $form_state->set('num_searchresults_fields', $add_button);
-    // Since our buildForm() method relies on the value of 'num_searchresults_fields' to
-    // generate 'name' form elements, we have to tell the form to rebuild. If we
-    // don't do this, the form builder will not call buildForm().
     $form_state->setRebuild();
   }
 
@@ -524,9 +514,6 @@ class AjaxSolrSearchConfigForm extends ConfigFormBase {
       $remove_button = $name_field - 1;
       $form_state->set('num_searchresults_fields', $remove_button);
     }
-    // Since our buildForm() method relies on the value of 'num_searchresults_fields' to
-    // generate 'name' form elements, we have to tell the form to rebuild. If we
-    // don't do this, the form builder will not call buildForm().
     $form_state->setRebuild();
   }
 
@@ -548,9 +535,6 @@ class AjaxSolrSearchConfigForm extends ConfigFormBase {
     $name_field = $form_state->get('num_searchable_fields');
     $add_button = $name_field + 1;
     $form_state->set('num_searchable_fields', $add_button);
-    // Since our buildForm() method relies on the value of 'num_facets_fields' to
-    // generate 'name' form elements, we have to tell the form to rebuild. If we
-    // don't do this, the form builder will not call buildForm().
     $form_state->setRebuild();
   }
 
@@ -565,9 +549,6 @@ class AjaxSolrSearchConfigForm extends ConfigFormBase {
       $remove_button = $name_field - 1;
       $form_state->set('num_searchable_fields', $remove_button);
     }
-    // Since our buildForm() method relies on the value of 'num_facets_fields' to
-    // generate 'name' form elements, we have to tell the form to rebuild. If we
-    // don't do this, the form builder will not call buildForm().
     $form_state->setRebuild();
   }
 
