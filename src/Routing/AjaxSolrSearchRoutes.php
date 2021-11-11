@@ -8,7 +8,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Routing\Route;
 
 /**
- * AjaxSolrSearchRoutes Definition.
+ * Class AjaxSolrSearchRoutes definition.
  */
 class AjaxSolrSearchRoutes implements ContainerInjectionInterface {
 

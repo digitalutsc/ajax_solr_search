@@ -9,7 +9,6 @@ use Drupal\simpletest\WebTestBase;
  */
 class SolrSearchControllerTest extends WebTestBase {
 
-
   /**
    * {@inheritdoc}
    */
@@ -19,13 +18,6 @@ class SolrSearchControllerTest extends WebTestBase {
       'description' => 'Test Unit for module ajax_solr_search and controller SolrSearchController.',
       'group' => 'Other',
     ];
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function setUp() {
-    parent::setUp();
   }
 
   /**

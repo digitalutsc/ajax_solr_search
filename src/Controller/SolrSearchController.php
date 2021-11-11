@@ -2,10 +2,11 @@
 
 namespace Drupal\ajax_solr_search\Controller;
 
+use Drupal\Component\Render\FormattableMarkup;
 use Drupal\Core\Controller\ControllerBase;
 
 /**
- * Class SolrSearchController.
+ * Class SolrSearchController definition.
  */
 class SolrSearchController extends ControllerBase {
 
@@ -70,7 +71,7 @@ class SolrSearchController extends ControllerBase {
 
     return [
       '#type' => 'markup',
-      '#markup' => $this->t($search_form),
+      '#markup' => new FormattableMarkup($search_form, []),
       '#attached' => [
         'library' => [
           'ajax_solr_search/ajax_solr_search',

@@ -41,14 +41,10 @@ p:empty {
 #result a {
   margin-right: 5px;
 }
-#navigation {
-  /*border-bottom: 1px solid #000;*/
-}
+
 div.pager {
   padding-bottom: 25px;
   text-align: center;
-}
-#pager {
 }
 #pager li a {
   font-size: 1.1em;
@@ -124,7 +120,8 @@ a.tagcloud_size_1 {
 }
 a.tagcloud_size_2 {
   font-size: 100%;
-}Rst a.tagcloud_size_3 {
+}
+a.tagcloud_size_3 {
   font-size: 110%;
 }
 a.tagcloud_size_4 {
@@ -137,7 +134,7 @@ a.tagcloud_size_6 {
   font-size: 140%;
 }
 a.tagcloud_size_7 {
-  font-size: 150%
+  font-size: 150%;
 }
 a.tagcloud_size_8 {
   font-size: 160%;
