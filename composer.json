@@ -1,5 +1,5 @@
 {
-    "name": "ajax_solr_search",
+    "name": "digitalutsc/ajax_solr_search",
     "type": "drupal-module",
     "description": "Drupal 8/9 module provide a user interface for the Federated Search functionality among all of Drupal sites which index content to one shared Solr core",
     "keywords": [
@@ -9,5 +9,59 @@
     "support": {
         "issues": "https://www.drupal.org/project/issues/ajax_solr_search",
         "source": "http://cgit.drupalcode.org/ajax_solr_search"
+    },
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://packages.drupal.org/8"
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "evolvingweb/ajax-solr",
+                "version": "master",
+                "type":"drupal-library",
+                "source": {
+                    "url": "git@github.com:evolvingweb/ajax-solr.git",
+                    "type": "git",
+                    "reference": "master"
+                }
+            }
+        }
+    ],
+    "require": {
+        "evolvingweb/ajax-solr": "*"
+    },
+    "authors": [
+        {
+            "name": "The University of Toronto Scarborough Library's Digital Scholarship Unit (DSU)",
+            "email": "digitalscholarship@utsc.utoronto.ca",
+            "role": "Owner"
+        },
+        {
+            "name": "Kyle Huynh",
+            "email": "kyle.huynh205@gmail.com",
+            "role": "Maintainer"
+        }
+    ],
+    "scripts": {
+        "post-install-cmd": [
+            "./vendor/bin/phpcs --config-set installed_paths ~/.composer/vendor/drupal/coder/coder_sniffer"
+        ],
+        "post-update-cmd": [
+            "./vendor/bin/phpcs --config-set installed_paths ~/.composer/vendor/drupal/coder/coder_sniffer"
+        ],
+        "check": [
+            "./vendor/bin/phpcs --standard=Drupal --ignore=*.md,vendor --extensions=php,module,inc,install,test,profile,theme,css,info .",
+            "./vendor/bin/phpcpd --names='*.module,*.inc,*.test,*.php' --exclude=vendor ."
+        ]
+    },
+    "installer-paths": {
+        "web/core": ["type:drupal-core"],
+        "web/libraries/{$name}": ["type:drupal-library"],
+        "web/modules/contrib/{$name}": ["type:drupal-module"],
+        "web/profiles/contrib/{$name}": ["type:drupal-profile"],
+        "web/themes/contrib/{$name}": ["type:drupal-theme"],
+        "drush/Commands/{$name}": ["type:drupal-drush"]
     }
 }

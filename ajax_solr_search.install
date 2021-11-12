@@ -32,7 +32,7 @@ function ajax_solr_search_requirements($phase): array {
       'title' => t('Ajax Solr for Drupal'),
       'value' => t('Ajax Solr for Drupal module is not installed.'),
       'severity' => REQUIREMENT_ERROR,
-      'description' => t('The AJAX Solr library is not installed in <code>:lib</code>, check the <a href="https://github.com/digitalutsc/drupal_ajax_solr/blob/main/README.md">README.md for more information</a> and <a href=":docs">the documentation for information on how to install a library</a>.', $arguments),
+      'description' => t('The AJAX Solr library is not installed in <code>:lib</code>, check the <a href="https://github.com/digitalutsc/drupal_ajax_solr/blob/main/README.md">README.md</a> for more information and <a href=":docs">the documentation for information on how to install a library</a>.', $arguments),
     ];
   }
 
