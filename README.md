@@ -25,7 +25,8 @@ At Digital Scholarship Unit - UTSC Library, we have developed this module to sup
 | Other optional fields to add...   | ...        | ...       | ...       |
 
 ## Installation and configuration
-* Cloning this module to your module directory of your Drupal site:
+* By Composer: `composer require digitalutsc/ajax_solr_search`
+* **OR** git clone this module to your _modules_ directory (ie. _web/modules/contrib_) of your Drupal site:
   * `git clone https://github.com/digitalutsc/drupal_ajax_solr_search.git`
 * Clone the dependency [Ajax Solr library](https://github.com/digitalutsc/ajax-solr) to Libraries directory (ie. drupal/web/libraries):
   * `git clone https://github.com/digitalutsc/ajax-solr.git`
