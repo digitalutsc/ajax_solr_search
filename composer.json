@@ -20,7 +20,7 @@
             "type": "package",
             "package": {
                 "name": "evolvingweb/ajax-solr",
-                "version": "master",
+                "version": "dev-master",
                 "type":"drupal-library",
                 "source": {
                     "url": "git@github.com:evolvingweb/ajax-solr.git",
@@ -31,7 +31,7 @@
         }
     ],
     "require": {
-        "evolvingweb/ajax-solr": "master"
+        "evolvingweb/ajax-solr": "dev-master"
     },
     "authors": [
         {
