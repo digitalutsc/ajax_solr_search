@@ -25,14 +25,15 @@ function ajax_solr_search_requirements($phase): array {
   if (!$library_exists) {
     $arguments = [
       ':docs' => 'https://www.drupal.org/docs/8/theming-drupal-8/adding-stylesheets-css-and-javascript-js-to-a-drupal-8-theme#external',
-      ':readme' => 'https://github.com/digitalutsc/drupal_ajax_solr_search/blob/main/README.md',
+      ':readme' => 'https://github.com/digitalutsc/drupal_ajax_solr/blob/1.0.x/README.md',
+      ':ajax_solr' => 'https://github.com/evolvingweb/ajax-solr',
       ':lib' => DRUPAL_ROOT . $library_path,
     ];
     $requirements['ajax_solr_search_library'] = [
       'title' => t('Ajax Solr for Drupal'),
       'value' => t('Ajax Solr for Drupal module is not installed.'),
       'severity' => REQUIREMENT_ERROR,
-      'description' => t('The AJAX Solr library is not installed in <code>:lib</code>, check the <a href="https://github.com/digitalutsc/drupal_ajax_solr/blob/main/README.md">README.md</a> for more information and <a href=":docs">the documentation for information on how to install a library</a>.', $arguments),
+      'description' => t('<p>The AJAX Solr Javascript library is missing.</p><p>Clone <a href=":ajax_solr" target="_blank">the library from Github</a> to Drupal Libraries directory at <code>:lib</code>.</p><p>Check the <a href=":readme">README.md</a> for more information and <a href=":docs">the documentation for information on how to install a library</a>.</p>', $arguments),
     ];
   }
 
