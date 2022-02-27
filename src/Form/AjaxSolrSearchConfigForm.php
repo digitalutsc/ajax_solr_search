@@ -169,6 +169,33 @@ class AjaxSolrSearchConfigForm extends ConfigFormBase {
           $num_facets_fields = 1;
         }
       }
+
+      $form['container']['access-control'] = [
+        '#type' => 'details',
+        '#title' => 'Custom access-control',
+        '#open' => TRUE,
+        '#tree' => TRUE,
+        '#prefix' => '<div id="access-control-wrapper">',
+        '#suffix' => '</div>',
+      ];
+
+      $form['container']['access-control']['access-control-field-name'] = [
+        '#type' => 'select',
+        '#options' => $mappedFields,
+        '#title' => new FormattableMarkup("Select field:", []),
+        '#prefix' => '<div class="form--inline clearfix"><div class="form-item">',
+        '#suffix' => '</div>',
+        '#default_value' => (!empty($config->get("access-control-field-name"))) ? $config->get("access-control-field-name") : '',
+      ];
+
+      $form['container']['access-control']['access-control-value'] = [
+          '#type' => 'textfield',
+          '#title' => new FormattableMarkup('Value: ', []),
+          '#prefix' => '<div class="form-item">',
+          '#suffix' => '</div></div>',
+          '#default_value' => (!empty($config->get("access-control-value"))) ? $config->get("access-control-value") : '',
+      ];
+
       $form['container']['facets'] = [
         '#type' => 'details',
         '#title' => 'Facets',
@@ -394,6 +421,10 @@ class AjaxSolrSearchConfigForm extends ConfigFormBase {
           'label' => $form_state->getValues()['facets']['facets-field-label-' . $i],
         ]);
     }
+
+    // subquery for access control
+    $configFactory->set("access-control-field-name", $form_state->getValues()['access-control']['access-control-field-name']);
+    $configFactory->set("access-control-value", $form_state->getValues()['access-control']['access-control-value']);
 
     $configFactory->set("solr-facets-fields", $facets_fields);
 

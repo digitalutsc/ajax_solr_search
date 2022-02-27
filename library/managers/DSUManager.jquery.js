@@ -28,6 +28,11 @@
         if (!string.includes("q=*%3A*")) {
           string = "defType=dismax&" + string;
         }
+
+        // add for set access control as sub query
+        string = string.replace("access.control", "fq")
+
+
         if (this.proxyUrl) {
           options.url = this.proxyUrl + '/' + servlet;
           options.data = {query: string};

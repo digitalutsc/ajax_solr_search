@@ -79,9 +79,10 @@
             'json.nl': 'map',
             'hl': true,
             'hl.fl': 'tm_X3b_en_description',//searchable_fields.join(" "),
-            'hl.snippets': 4
+            'hl.snippets': 4,
             /*'hl.simple.pre': '<span style="background:#FFFF99">',
             'hl.simple.post': '</span>'*/
+              'access.control': drupalSettings.ajax_solr_search.access_control,
           };
           for (var name in params) {
             Manager.store.addByValue(name, params[name]);
