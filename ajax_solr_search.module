@@ -35,6 +35,18 @@ function ajax_solr_search_theme(): array {
 }
 
 /**
+ * Implements hook_form_alter()
+ */
+function ajax_solr_search_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id){
+  if ($form_id === "ajax_solr_search_config_form") { 
+    $form['#attached']['library'] = array(
+      'ajax_solr_search/bootstrap-select'
+    );  
+  }
+  return $form;
+}
+
+/**
  * Debug function: display any variable to error log.
  *
  * @param $thing

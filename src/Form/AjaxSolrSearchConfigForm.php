@@ -127,6 +127,7 @@ class AjaxSolrSearchConfigForm extends ConfigFormBase {
           '#title' => new FormattableMarkup('Select Solr Search field #' . ($i + 1) . ':', []),
           '#options' => $mappedFields,
           '#default_value' => (!empty($config->get("solr-searchable-fields")[$i])) ? $config->get("solr-searchable-fields")[$i] : '',
+          '#attributes' => ['class' => ['selectpicker'], 'data-live-search' => ['true']],
         ];
       }
       $form['container']['searchable']['actions'] = [
@@ -186,6 +187,7 @@ class AjaxSolrSearchConfigForm extends ConfigFormBase {
         '#prefix' => '<div class="form--inline clearfix"><div class="form-item">',
         '#suffix' => '</div>',
         '#default_value' => (!empty($config->get("access-control-field-name"))) ? $config->get("access-control-field-name") : '',
+        '#attributes' => ['class' => ['selectpicker'], 'data-live-search' => ['true']],
       ];
 
       $form['container']['access-control']['access-control-value'] = [
@@ -213,6 +215,7 @@ class AjaxSolrSearchConfigForm extends ConfigFormBase {
           '#prefix' => '<div class="form--inline clearfix"><div class="form-item">',
           '#suffix' => '</div>',
           '#default_value' => (!empty($config->get("solr-facets-fields")[$i]['fname'])) ? $config->get("solr-facets-fields")[$i]['fname'] : '',
+          '#attributes' => ['class' => ['selectpicker'], 'data-live-search' => ['true']],
         ];
         $form['container']['facets']['facets-field-label-' . $i] = [
           '#type' => 'textfield',
@@ -307,6 +310,7 @@ class AjaxSolrSearchConfigForm extends ConfigFormBase {
           '#default_value' => !empty($config->get("solr-results-html")[$i]['fname']) ? $config->get("solr-results-html")[$i]['fname'] : '',
           '#required' => $require,
           '#description' => !empty($config->get("solr-results-html")[$i]['fname']) ? "Token: {{ " . $config->get("solr-results-html")[$i]['fname'] . " }}" : '',
+          '#attributes' => ['class' => ['selectpicker'], 'data-live-search' => ['true']],
         ];
         $form['container']['search-results']['results-field-label-' . $i] = [
           '#type' => 'textfield',
@@ -626,7 +630,7 @@ class AjaxSolrSearchConfigForm extends ConfigFormBase {
     $response = str_replace('\n', "", $response);
     $fields = explode(",", $response);
     sort($fields);
-    $options = [-1 => '--- Select a field ---'];
+    $options = [-1 => '-Click to select a field -'];
     foreach ($fields as $field) {
       if (!empty($field) && strlen(trim($field)) !== 0) {
         $options[$field] = $field;
