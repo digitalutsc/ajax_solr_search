@@ -15,8 +15,8 @@ class AjaxSolrSearchConfigForm extends ConfigFormBase {
   const OUTPUT_TEMPLATE = '<div class="node">
       <div class="thumb"><img src="{{ thumbnail }}" alt="thumbnail"/></div>
       <div class="others">
-        <p><h2><a href="{{ url }}" target="_blank">{{ title }}</a></h2></p>
-        <p>{{ description }}</p>
+        <p><h2><a href="{{ site }}/node/{{ nid }}" target="_blank">{{ title }}</a></h2></p>
+        <p><strong>Description</strong>: {{ description }}</p>
         {{ others }}
       </div>
     </div>
@@ -159,7 +159,7 @@ class AjaxSolrSearchConfigForm extends ConfigFormBase {
 
       // Gather the number of names in the form already.
       $num_facets_fields = $form_state->get('num_facets_fields');
-      // We have to ensure that there is at least one name field.
+      // We have to ensure that there is at least one name field.f
       if ($num_facets_fields === NULL) {
         if ($config->get("solr-facets-fields") !== NULL && count($config->get("solr-facets-fields")) > 0) {
           $num_facets_fields = count($config->get("solr-facets-fields"));
@@ -170,33 +170,97 @@ class AjaxSolrSearchConfigForm extends ConfigFormBase {
           $num_facets_fields = 1;
         }
       }
+/////////////////////////////////////////////////
 
-      $form['container']['access-control'] = [
+      // Gather the number of names in the form already.
+      $num_condition_fields = $form_state->get('num_condition_fields');
+      // We have to ensure that there is at least one name field.f
+      if ($num_condition_fields === NULL) {
+        if ($config->get("solr-condition-fields") !== NULL && count($config->get("solr-condition-fields")) > 0) {
+          $num_condition_fields = count($config->get("solr-condition-fields"));
+          $form_state->set('num_condition_fields', $num_condition_fields);
+        }
+        else {
+          $form_state->set('num_condition_fields', 1);
+          $num_condition_fields = 1;
+        }
+      }
+
+      $form['container']['condition'] = [
         '#type' => 'details',
-        '#title' => 'Custom access-control',
+        '#title' => 'Condition (Solr Sub-query)',
         '#open' => TRUE,
         '#tree' => TRUE,
-        '#prefix' => '<div id="access-control-wrapper">',
+        '#prefix' => '<div id="condition-fields-wrapper">',
         '#suffix' => '</div>',
       ];
 
-      $form['container']['access-control']['access-control-field-name'] = [
-        '#type' => 'select',
-        '#options' => $mappedFields,
-        '#title' => new FormattableMarkup("Select field:", []),
-        '#prefix' => '<div class="form--inline clearfix"><div class="form-item">',
-        '#suffix' => '</div>',
-        '#default_value' => (!empty($config->get("access-control-field-name"))) ? $config->get("access-control-field-name") : '',
-        '#attributes' => ['class' => ['selectpicker'], 'data-live-search' => ['true']],
-      ];
-
-      $form['container']['access-control']['access-control-value'] = [
+      for ($i = 0; $i < $num_condition_fields; $i++) {
+        $form['container']['condition']['sub-query-field-name-' . $i] = [
+          '#type' => 'select',
+          '#options' => $mappedFields,
+          '#title' => new FormattableMarkup("Select field:", []),
+          '#prefix' => '<div class="form--inline clearfix"><div class="form-item">',
+          '#suffix' => '</div>',
+          '#default_value' => (!empty($config->get("solr-condition-fields")[$i]['fname'])) ? $config->get("solr-condition-fields")[$i]['fname'] : '',
+          '#attributes' => ['class' => ['selectpicker'], 'data-live-search' => ['true']],
+        ];
+        $form['container']['condition']['sub-query-opereator-' . $i] = [
+          '#type' => 'select',
+          '#options' => [
+            -1 => '-- Select --',
+            '=' => "Equal",
+            '!=' => "Not equal",
+            //'has' => 'Contains',
+            //'!has' => 'Does not contain',
+            'null' => 'Is empty',
+            '!null' => "is not empty"
+          ],
+          '#title' => new FormattableMarkup("Select field:", []),
+          '#prefix' => '<div class="form--inline clearfix"><div class="form-item">',
+          '#suffix' => '</div>',
+          '#default_value' => (!empty($config->get("solr-condition-fields")[$i]['op'])) ? $config->get("solr-condition-fields")[$i]['op'] : -1,
+        ];
+        //logging($config->get("solr-condition-fields"));
+        $form['container']['condition']['sub-query-value-' . $i] = [
           '#type' => 'textfield',
           '#title' => new FormattableMarkup('Value: ', []),
           '#prefix' => '<div class="form-item">',
           '#suffix' => '</div></div>',
-          '#default_value' => (!empty($config->get("access-control-value"))) ? $config->get("access-control-value") : '',
+          '#default_value' => (!empty($config->get("solr-condition-fields")[$i]['label'])) ? $config->get("solr-condition-fields")[$i]['label'] : '',
+        ];
+      }
+
+      $form['container']['condition']['actions'] = [
+        '#type' => 'actions',
       ];
+      $form['container']['condition']['actions']['add_condition_field'] = [
+        '#type' => 'submit',
+        '#name' => 'add_condition_field',
+        '#value' => $this->t('Add a field'),
+        '#submit' => ['::addOneConditionField'],
+        '#ajax' => [
+          'callback' => '::addConditionFieldCallback',
+          'wrapper' => 'condition-fields-wrapper',
+        ],
+      ];
+      // If there is more than one name, add the remove button.
+      if ($num_condition_fields > 1) {
+        $form['container']['condition']['actions']['remove_condition_field'] = [
+          '#type' => 'submit',
+          '#name' => 'remove_condition_field',
+          '#value' => $this->t('Remove'),
+          '#submit' => ['::removeConditionFieldCallback'],
+          '#ajax' => [
+            'callback' => '::addConditionFieldCallback',
+            'wrapper' => 'condition-fields-wrapper',
+          ],
+        ];
+      }
+
+/////////////////////////////////////////////////
+
+
 
       $form['container']['facets'] = [
         '#type' => 'details',
@@ -258,15 +322,15 @@ class AjaxSolrSearchConfigForm extends ConfigFormBase {
       if ($num_searchresults_fields === NULL) {
         if ($config->get("solr-facets-fields") !== NULL && count($config->get("solr-results-html")) > 0) {
           $num_searchresults_fields = count($config->get("solr-results-html"));
-          if ($num_searchresults_fields < 4) {
-            $num_searchresults_fields = 4;
+          if ($num_searchresults_fields < 5) {
+            $num_searchresults_fields = 5;
           }
           $name_field = $form_state->set('num_searchresults_fields', $num_searchresults_fields);
         }
         else {
           // First time loaded.
           $name_field = $form_state->set('num_searchresults_fields', 1);
-          $num_searchresults_fields = 4;
+          $num_searchresults_fields = 6;
         }
 
       }
@@ -294,7 +358,11 @@ class AjaxSolrSearchConfigForm extends ConfigFormBase {
           $require = TRUE;
         }
         elseif ($i == 3) {
-          $field_label = 'URL Field (mandatory)';
+          $field_label = 'Site (mandatory)';
+          $require = TRUE;
+        }
+        elseif ($i == 4) {
+          $field_label = 'Node ID (mandatory)';
           $require = TRUE;
         }
         else {
@@ -336,7 +404,7 @@ class AjaxSolrSearchConfigForm extends ConfigFormBase {
         ],
       ];
 
-      if ($num_searchresults_fields > 4) {
+      if ($num_searchresults_fields > 5) {
         $form['container']['search-results']['actions']['remove_search-results-field'] = [
           '#type' => 'submit',
           '#name' => 'remove_search-results-field',
@@ -427,10 +495,25 @@ class AjaxSolrSearchConfigForm extends ConfigFormBase {
     }
 
     // subquery for access control
-    $configFactory->set("access-control-field-name", $form_state->getValues()['access-control']['access-control-field-name']);
-    $configFactory->set("access-control-value", $form_state->getValues()['access-control']['access-control-value']);
+    $configFactory->set("sub-query-field-name", $form_state->getValues()['condition']['sub-query-field-name']);
+    $configFactory->set("sub-query-value", $form_state->getValues()['condition']['sub-query-value']);
 
     $configFactory->set("solr-facets-fields", $facets_fields);
+
+
+    $condition_fields = [];
+    for ($i = 0; $i < $form_state->get('num_condition_fields'); $i++) {
+      array_push($condition_fields,
+        [
+          "fname" => $form_state->getValues()['condition']['sub-query-field-name-' . $i],
+          "op" => $form_state->getValues()['condition']['sub-query-opereator-' . $i],
+          'label' => $form_state->getValues()['condition']['sub-query-value-' . $i],
+        ]);
+    }
+    $configFactory->set("solr-condition-fields", $condition_fields);
+
+
+
 
     if (isset($form_state->getValues()['container']['search-results']['actions']['textfields_container']['rewrite-template'])) {
       $template = $form_state->getValues()['container']['search-results']['actions']['textfields_container']['rewrite-template'];
@@ -459,8 +542,12 @@ class AjaxSolrSearchConfigForm extends ConfigFormBase {
         $template = str_replace("{{ description }}", "{{ " . $form_state->getValues()['search-results']['results-field-name-' . $i] . " }}", $template);
       }
       elseif ($i == 3) {
-        // For description.
-        $template = str_replace("{{ url }}", "{{ " . $form_state->getValues()['search-results']['results-field-name-' . $i] . " }}", $template);
+        // For site in URL.
+        $template = str_replace("{{ site }}", "{{ " . $form_state->getValues()['search-results']['results-field-name-' . $i] . " }}", $template);
+      }
+      elseif ($i == 4) {
+        // For nid in url.
+        $template = str_replace("{{ nid }}", "{{ " . $form_state->getValues()['search-results']['results-field-name-' . $i] . " }}", $template);
       }
       else {
         // For others.
@@ -647,6 +734,41 @@ class AjaxSolrSearchConfigForm extends ConfigFormBase {
    */
   public function textfieldsCallback($form, FormStateInterface $form_state) {
     return $form['container']['search-results']['textfields_container'];
+  }
+
+  /**
+   * Callback for both ajax-enabled buttons.
+   *
+   * Selects and returns the fieldset with the names in it.
+   */
+  public function addConditionFieldCallback(array &$form, FormStateInterface $form_state) {
+    return $form['container']['condition'];
+  }
+
+  /**
+   * Submit handler for the "add-one-more" button.
+   *
+   * Increments the max counter and causes a rebuild.
+   */
+  public function addOneConditionField(array &$form, FormStateInterface $form_state) {
+    $name_field = $form_state->get('num_condition_fields');
+    $add_button = $name_field + 1;
+    $form_state->set('num_condition_fields', $add_button);
+    $form_state->setRebuild();
+  }
+
+  /**
+   * Submit handler for the "remove one" button.
+   *
+   * Decrements the max counter and causes a form rebuild.
+   */
+  public function removeConditionFieldCallback(array &$form, FormStateInterface $form_state) {
+    $name_field = $form_state->get('num_condition_fields');
+    if ($name_field > 1) {
+      $remove_button = $name_field - 1;
+      $form_state->set('num_condition_fields', $remove_button);
+    }
+    $form_state->setRebuild();
   }
 
 }

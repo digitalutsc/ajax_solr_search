@@ -56,17 +56,36 @@
             }));
             facets.push(facets_fields[i].fname);
           }
+
+          /* Condition */
+          var condition_fields = JSON.parse(drupalSettings.ajax_solr_search.condition_fields);
+          var condition = [];
+          var fq='';
+          for (var i = 0, l = condition_fields.length; i < l; i++) {
+            if (condition_fields[i].op == '!null') {
+              condition.push(condition_fields[i].fname + ":[* TO *]");
+            }
+            else if (condition_fields[i].op == 'null') {
+              condition.push("-" + condition_fields[i].fname + ":[* TO *]");
+            }
+            else if (condition_fields[i].op == '!=') {
+              condition.push("-" + condition_fields[i].fname + ':"' + condition_fields[i].label + '"');
+            }
+            else {
+              condition.push(condition_fields[i].fname + ':"' + condition_fields[i].label + '"');
+            }
+          }
+
+
           Manager.init();
           Manager.store.addByValue('q', '*:*');
 
-          /*var fields =  JSON.parse(drupalSettings.ajax_solr_search.results_html);
-          var hl_fields = "";
-          for (var i = 0; i < fields.length; i++) {
-            hl_fields += fields[i].fname + " ";
-          }*/
+
           var params = {
             facet: true,
             'qf' : searchable_fields.join(" "),
+            'fq' : condition.join(" AND "),
+            //'fq' : fq,
             'facet.field': facets,
             'facet.limit': 20,
             'facet.mincount': 1,
@@ -82,8 +101,15 @@
             'hl.snippets': 4,
             /*'hl.simple.pre': '<span style="background:#FFFF99">',
             'hl.simple.post': '</span>'*/
-              'access.control': drupalSettings.ajax_solr_search.access_control,
+            //'access.control': drupalSettings.ajax_solr_search.access_control,
+            'rows': 25
           };
+
+          //console.log(drupalSettings.ajax_solr_search.access_control);
+          /*if (drupalSettings.ajax_solr_search.access_control !== ':') {
+            params['access.control'] = drupalSettings.ajax_solr_search.access_control;
+          }*/
+          console.log(params);
           for (var name in params) {
             Manager.store.addByValue(name, params[name]);
           }

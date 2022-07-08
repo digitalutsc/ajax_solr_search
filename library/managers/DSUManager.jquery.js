@@ -30,8 +30,8 @@
         }
 
         // add for set access control as sub query
-        string = string.replace("access.control", "fq")
-
+        //string = string.replace("condition_fields", "fq")
+        //console.log(string);
 
         if (this.proxyUrl) {
           options.url = this.proxyUrl + '/' + servlet;

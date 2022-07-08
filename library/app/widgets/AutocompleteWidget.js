@@ -43,7 +43,7 @@ AjaxSolr.AutocompleteWidget = AjaxSolr.AbstractTextWidget.extend({
       });
     } // end callback
 
-    var params = [ 'rows=0&facet=true&facet.limit=-1&facet.mincount=1&json.nl=map' ];
+    var params = [ 'rows=25&facet=true&facet.limit=-1&facet.mincount=1&json.nl=map' ];
     for (var i = 0; i < this.fields.length; i++) {
       params.push('facet.field=' + this.fields[i]);
     }
@@ -53,6 +53,7 @@ AjaxSolr.AutocompleteWidget = AjaxSolr.AbstractTextWidget.extend({
     }
     params.push('q=' + this.manager.store.get('q').val());
     //$.getJSON(this.manager.solrUrl + 'select?' + params.join('&') + '&wt=json&json.wrf=?', {}, callback);
+    console.log(this.manager.solrUrl + '/select?' + params.join('&') + '&wt=json');
     if (this.manager.proxyUrl) {
       $.getJSON(this.manager.proxyUrl + '/select?' + params.join('&') + '&wt=json', {}, callback);
     }
