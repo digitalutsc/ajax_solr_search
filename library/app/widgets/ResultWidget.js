@@ -85,9 +85,9 @@
       }
 
       var output = this.manager.outputTemplate;
-
       for (var i = 0; i < this.result_html.length; i++) {
         if (doc[this.result_html[i].fname] !== undefined) {
+          // default template
           if (i < 4) {
             if (i == 0 && (!doc[this.result_html[i].fname].includes(doc['site']))) {
               output = output.replace("{{ " + this.result_html[i].fname + " }}", doc['site'] + doc[this.result_html[i].fname]);
@@ -102,13 +102,15 @@
             output = output.replace("{{ " + this.result_html[i].fname + " }}", doc[this.result_html[i].fname]);
           }
         } else {
+          //custom template
           if (i === 0) {
             // if no thumbnail, remove <img/>.
             var token = "{{ " + this.result_html[i].fname + " }}";
             var rgxp = new RegExp('<img [^>]*src="' + token + '"[^>]*>', "gm");
             var img = output.match(rgxp);
             output = output.replace(img, "");
-          } else {
+          }
+          else {
             output = output.replace("{{ " + this.result_html[i].fname + " }}", "");
           }
         }

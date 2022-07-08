@@ -323,14 +323,14 @@ class AjaxSolrSearchConfigForm extends ConfigFormBase {
         if ($config->get("solr-facets-fields") !== NULL && count($config->get("solr-results-html")) > 0) {
           $num_searchresults_fields = count($config->get("solr-results-html"));
           if ($num_searchresults_fields < 5) {
-            $num_searchresults_fields = 5;
+            $num_searchresults_fields = 6;
           }
           $name_field = $form_state->set('num_searchresults_fields', $num_searchresults_fields);
         }
         else {
           // First time loaded.
           $name_field = $form_state->set('num_searchresults_fields', 1);
-          $num_searchresults_fields = 6;
+          $num_searchresults_fields = 7;
         }
 
       }
@@ -363,6 +363,10 @@ class AjaxSolrSearchConfigForm extends ConfigFormBase {
         }
         elseif ($i == 4) {
           $field_label = 'Node ID (mandatory)';
+          $require = TRUE;
+        }
+        elseif ($i == 5) {
+          $field_label = "URL (mandatory, make sure index field <code>search_api_url</code> in Search Api)";
           $require = TRUE;
         }
         else {
