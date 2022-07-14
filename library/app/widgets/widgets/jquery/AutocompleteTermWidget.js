@@ -100,7 +100,7 @@ AjaxSolr.AutocompleteTermWidget = AjaxSolr.AbstractTextWidget.extend(
           if (lastSpace > -1) {
             fq = term.substring(0, lastSpace);
             facetPrefix = term.substring(lastSpace + 1);
-            store.addByValue('fq', '{!dismax qf=' + self.field + '}' + fq);
+            store.addByValue('fq', '{!edismax qf=' + self.field + '}' + fq);
           }
         }
         if (self.lowercase) {

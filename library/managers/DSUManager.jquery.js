@@ -26,7 +26,7 @@
         };
 
         if (!string.includes("q=*%3A*")) {
-          string = "defType=dismax&" + string;
+          string = "defType=edismax&" + string;
         }
 
         // add for set access control as sub query
