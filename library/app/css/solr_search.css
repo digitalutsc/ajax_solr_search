@@ -14,7 +14,7 @@
 }
 .thumb {
   flex: 30%;
-  padding: 25px 20px 0 0;
+  padding: 0px 20px 0 0;
 }
 .others {
   flex: 70%;
@@ -145,3 +145,9 @@ a.tagcloud_size_9 {
 a.tagcloud_size_10 {
   font-size: 180%;
 }
+
+/* custom */
+#pager li, .links li {
+  border: 1px solid rgba(0,0,0,0.1);
+}
+

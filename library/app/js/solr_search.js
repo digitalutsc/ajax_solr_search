@@ -24,7 +24,7 @@
             nextLabel: '&gt;',
             innerWindow: 1,
             renderHeader: function (perPage, offset, total) {
-              $('#pager-header').html($('<p></p>').text('Displaying ' + Math.min(total, offset + 1) + ' - ' + Math.min(total, offset + perPage) + ' of ' + total));
+              $('#pager-header').html($('<p><strong></strong></p>').text('Displaying ' + Math.min(total, offset + 1) + ' - ' + Math.min(total, offset + perPage) + ' of ' + total));
             }
           }));
 
