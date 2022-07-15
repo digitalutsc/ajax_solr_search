@@ -34,7 +34,7 @@ p:empty {
 .right {
   float: right;
   width: 60%;
-  padding: 10px 20px 10px 40px;
+  padding: 10px 20px 10px 20px;
   border-left: 1px solid #aaa;
   text-align: justify;
 }
@@ -60,6 +60,26 @@ div.pager {
   padding: 0.5em;
   border-radius: 0.125em;
   margin: 0 0 0.25em 1.0em !important;
+}
+#pager li, .links li {
+  border: 1px solid rgba(0,0,0,0.1);
+}
+
+#bottom-pager li a {
+  font-size: 1.1em;
+}
+#bottom-pager,
+
+#bottom-pager li,
+.links li {
+  list-style-type: none;
+  display: inline;
+  padding: 0.5em;
+  border-radius: 0.125em;
+  margin: 0 0 0.25em 1.0em !important;
+}
+#bottom-pager li, .links li {
+  border: 1px solid rgba(0,0,0,0.1);
 }
 
 .tagcloud label {
@@ -147,7 +167,15 @@ a.tagcloud_size_10 {
 }
 
 /* custom */
-#pager li, .links li {
-  border: 1px solid rgba(0,0,0,0.1);
+
+li:has(> pager-current) {
+  background-color: rgba(0,0,0,0.1) !important;
+}
+.pager-current {
+  color: #001228;
+  font-size: 1.5em;
+}
+.others h3{
+  margin: 0 !important;
 }
 

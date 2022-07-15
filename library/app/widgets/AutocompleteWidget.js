@@ -53,7 +53,6 @@ AjaxSolr.AutocompleteWidget = AjaxSolr.AbstractTextWidget.extend({
     }
     params.push('q=' + this.manager.store.get('q').val());
     //$.getJSON(this.manager.solrUrl + 'select?' + params.join('&') + '&wt=json&json.wrf=?', {}, callback);
-    console.log(this.manager.solrUrl + '/select?' + params.join('&') + '&wt=json');
     if (this.manager.proxyUrl) {
       $.getJSON(this.manager.proxyUrl + '/select?' + params.join('&') + '&wt=json', {}, callback);
     }

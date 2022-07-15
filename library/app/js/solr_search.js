@@ -28,6 +28,18 @@
             }
           }));
 
+        Manager.addWidget(new AjaxSolr.PagerWidget({
+          id: 'bottom-pager',
+          target: '#bottom-pager',
+          no_init_results: false,
+          prevLabel: '&lt;',
+          nextLabel: '&gt;',
+          innerWindow: 1,
+          renderHeader: function (perPage, offset, total) {
+            //$('#pager-header').html($('<p><strong></strong></p>').text('Displaying ' + Math.min(total, offset + 1) + ' - ' + Math.min(total, offset + perPage) + ' of ' + total));
+          }
+        }));
+
           // Search textfield
           Manager.addWidget(new AjaxSolr.CurrentSearchWidget({
             id: 'currentsearch',
@@ -109,7 +121,6 @@
           /*if (drupalSettings.ajax_solr_search.access_control !== ':') {
             params['access.control'] = drupalSettings.ajax_solr_search.access_control;
           }*/
-          console.log(params);
           for (var name in params) {
             Manager.store.addByValue(name, params[name]);
           }
