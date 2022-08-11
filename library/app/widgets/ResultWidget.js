@@ -4,7 +4,8 @@
     start: 0,
 
     beforeRequest: function () {
-      $(this.target).html($('<img>').attr('src', '../../images/ajax-loader.gif'));
+      //$(this.target).html($('<img>').attr('src', '../../images/ajax-loader.gif'));
+      $(this.target).html($('<img>').attr('src', 'https://github.com/digitalutsc/drupal_ajax_solr/raw/1.0.x/library/app/images/ajax-loader.gif'));
     },
 
     facetLinks: function (facet_field, facet_values) {
