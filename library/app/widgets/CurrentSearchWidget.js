@@ -24,7 +24,7 @@ AjaxSolr.CurrentSearchWidget = AjaxSolr.AbstractWidget.extend({
     if (links.length > 1) {
       links.unshift($('<a href="#"></a>').text('Remove all').click(function () {
         self.manager.store.get('q').val('*:*');
-        self.manager.store.remove('fq');
+        //self.manager.store.remove('fq');
         self.doRequest();
         return false;
       }));

@@ -320,7 +320,7 @@ left side of the range
 
           $(this.target).append($('<label for="'+this.field + '_' + facet + '_checkbox'+'" style="padding-left: 5px; font-size: small"></label>').text(facet));
           if (cur_facet_count != 0) {
-            $(this.target).append($('<span style="font-size: x-small"></span>').text(' (' + cur_facet_count + ')'));
+            $(this.target).append($('<span style="font-size: normal"></span>').text(' (' + cur_facet_count + ')'));
           }
           $(this.target).append($('<br>'));
         }
@@ -339,7 +339,7 @@ left side of the range
           );
           $('#' + show_more_div_id).append($('<label for="'+this.field + '_' + facet + '_checkbox'+'"  style="padding-left: 5px; font-size: small"></label>').text(facet));
           if (cur_facet_count != 0) {
-            $('#' + show_more_div_id).append($('<span style="font-size: x-small"></span>').text(' (' + cur_facet_count + ')'));
+            $('#' + show_more_div_id).append($('<span style="font-size: normal"></span>').text(' (' + cur_facet_count + ')'));
           }
           $('#' + show_more_div_id).append($('<br>'));
           num_hidden++;
