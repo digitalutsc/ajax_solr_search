@@ -114,7 +114,7 @@
             /*'hl.simple.pre': '<span style="background:#FFFF99">',
             'hl.simple.post': '</span>'*/
             //'access.control': drupalSettings.ajax_solr_search.access_control,
-            'rows': 25
+            'rows': drupalSettings.ajax_solr_search.items_per_page
           };
 
           //console.log(drupalSettings.ajax_solr_search.access_control);

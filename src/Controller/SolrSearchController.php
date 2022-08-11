@@ -50,7 +50,10 @@ class SolrSearchController extends ControllerBase {
         <div id="search">
           <input type="text" id="query" name="query" autocomplete="off" />
         </div>
-        <span id="search_help">(press ENTER to search)</span>
+        <span id="search_help">
+          <p>(press ENTER to search)</p>
+          '. $config->get("search-instruction") .'
+          </span>
         <!-- Current Selection -->
          <ul id="selection"></ul>
 
@@ -92,6 +95,8 @@ class SolrSearchController extends ControllerBase {
             'facets_fields' => json_encode($config->get("solr-facets-fields")),
             'results_html' => json_encode($config->get("solr-results-html")),
             'output_template' => $config->get("output-template"),
+            'search_instruction' => $config->get("search-instruction"),
+            'items_per_page' => $config->get("items-per-page"),
           ],
         ],
       ],

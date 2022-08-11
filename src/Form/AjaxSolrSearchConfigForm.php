@@ -464,6 +464,24 @@ class AjaxSolrSearchConfigForm extends ConfigFormBase {
         ];
       }
 
+      $form['container']['search-configuration'] = [
+        '#type' => 'details',
+        '#title' => 'Other Configuration',
+        '#open' => TRUE,
+        '#tree' => TRUE,
+      ];
+      $form['container']['search-configuration']['instruction'] = [
+        '#type' => 'textarea',
+        '#title' => $this
+          ->t('Search Instruction:'),
+        '#default_value' => (!empty($config->get("search-instruction"))) ? $config->get("search-instruction") : '',
+      ];
+      $form['container']['search-configuration']['items-per-page'] = [
+        '#type' => 'number',
+        '#title' => $this
+          ->t('Display items per page:'),
+        '#default_value' => (!empty($config->get("items-per-page"))) ? $config->get("items-per-page") : 25,
+      ];
     }
 
     return $form;
@@ -570,6 +588,8 @@ class AjaxSolrSearchConfigForm extends ConfigFormBase {
       $configFactory->set("output-template", $form_state->getValues()['search-results']['textfields_container']['rewrite-template']);
     }
 
+    $configFactory->set("search-instruction", $form_state->getValues()['search-configuration']['instruction']);
+    $configFactory->set("items-per-page", $form_state->getValues()['search-configuration']['items-per-page']);
     $configFactory->save();
   }
 
