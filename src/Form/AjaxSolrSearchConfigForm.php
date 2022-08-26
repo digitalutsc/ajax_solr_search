@@ -15,7 +15,7 @@ class AjaxSolrSearchConfigForm extends ConfigFormBase {
   const OUTPUT_TEMPLATE = '<div class="node">
       <div class="thumb"><img src="{{ thumbnail }}" alt="thumbnail"/></div>
       <div class="others">
-        <p><h3><a href="{{ site }}/node/{{ nid }}" target="_blank">{{ title }}</a></h3></p>
+        <p><h2><a href="{{ site }}/node/{{ nid }}" target="_blank">{{ title }}</a></h2></p>
         <p><strong>Description</strong>: {{ description }}</p>
         {{ others }}
       </div>

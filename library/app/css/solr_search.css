@@ -36,7 +36,6 @@ p:empty {
   width: 60%;
   padding: 10px 20px 10px 20px;
   border-left: 1px solid #aaa;
-  text-align: justify;
 }
 #result a {
   margin-right: 5px;

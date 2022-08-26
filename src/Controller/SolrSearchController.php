@@ -45,10 +45,14 @@ class SolrSearchController extends ControllerBase {
       </div>
 
       <div class="left">
-        <h2>Search</h2>
-
         <div id="search">
-          <input type="text" id="query" name="query" autocomplete="off" />
+          <div class="form-group">
+            <h2><label for="query">Search</label></h2>
+            <input type="text" id="query" name="query" autocomplete="off" />
+          </div> 
+          <!--<div class="form-group">
+            <button class="btn btn-primary" id="federated-search-submit" name="federated-search-submit">Search</button>
+          </div>-->
         </div>
         <span id="search_help">
           <p>(press ENTER to search)</p>
