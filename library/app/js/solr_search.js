@@ -69,6 +69,13 @@
             facets.push(facets_fields[i].fname);
           }
 
+          Manager.addWidget(
+            new AjaxSolr.DateRangeWidget({
+              id: "date-range",
+              target: "#date-range",
+            })
+          );
+
           /* Condition */
           var condition_fields = JSON.parse(drupalSettings.ajax_solr_search.condition_fields);
           var condition = [];
