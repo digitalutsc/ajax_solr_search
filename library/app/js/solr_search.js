@@ -73,6 +73,7 @@
             new AjaxSolr.DateRangeWidget({
               id: "date-range",
               target: "#date-range",
+              field: "itm_field_edtf_date_created",
             })
           );
 

@@ -66,7 +66,7 @@ class SolrSearchController extends ControllerBase {
           <h2><label for "start-date">Publication Date</label></h2>
           <input type="number" id="start-date" name="start-date" placeholder="From" autocomplete="off" />
           <input type="number" id="end-date" name="end-date" placeholder="To" autocomplete="off" />
-          <button class="button" id="date-range-submit" name="date-range-submit">Refine</button>
+          <button class="button" type="submit" id="date-range-submit" name="date-range-submit">Refine</button>
         </div>
         <div class="clear"></div>
       </div>
