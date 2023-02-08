@@ -24,6 +24,8 @@ class SolrSearchController extends ControllerBase {
       $facets_htmls .= '<div style="margin-top: 20px"><h2>' . $f['label'] . '</h2><div class="tagcloud" id="' . $f['fname'] . '"></div></div>';
     }
 
+    $date_range_label = $config->get("solr-date-field")['label'];
+
     $search_form = '<div id="wrap">
       <div class="right">
         <div id="result">
@@ -63,7 +65,7 @@ class SolrSearchController extends ControllerBase {
 
        ' . $facets_htmls . '
         <div id="date-range" style="margin-top: 20px">
-          <h2><label for "start-date">Publication Date</label></h2>
+          <h2><label for "start-date">'. $date_range_label .'</label></h2>
           <input type="number" id="start-date" name="start-date" placeholder="From" autocomplete="off" />
           <input type="number" id="end-date" name="end-date" placeholder="To" autocomplete="off" />
           <button class="button" type="submit" id="date-range-submit" name="date-range-submit">Refine</button>
