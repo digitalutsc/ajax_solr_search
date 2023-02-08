@@ -3,7 +3,7 @@
     afterRequest: function () {
       var self = this;
 
-      $(this.target).on("click", "#date-range-submit", function () {
+      $(this.target).on("click", "button", function () {
         // get date range input
         var start_date = $($(self.target).find("input")[0]).val();
         var end_date = $($(self.target).find("input")[1]).val();
