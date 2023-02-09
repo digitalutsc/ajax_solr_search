@@ -24,7 +24,7 @@ class SolrSearchController extends ControllerBase {
       $facets_htmls .= '<div style="margin-top: 20px"><h2>' . $f['label'] . '</h2><div class="tagcloud" id="' . $f['fname'] . '"></div></div>';
     }
 
-    $date_range_label = $config->get("solr-date-field")['label'];
+    $year_range_label = $config->get("solr-year-field")['label'];
 
     $search_form = '<div id="wrap">
       <div class="right">
@@ -64,11 +64,11 @@ class SolrSearchController extends ControllerBase {
          <ul id="selection"></ul>
 
        ' . $facets_htmls . '
-        <div id="date-range" style="margin-top: 20px">
-          <h2><label for "start-date">'. $date_range_label .'</label></h2>
-          <input type="number" id="start-date" name="start-date" placeholder="From" autocomplete="off" />
-          <input type="number" id="end-date" name="end-date" placeholder="To" autocomplete="off" />
-          <button class="button" type="submit" id="date-range-submit" name="date-range-submit">Refine</button>
+        <div id="year-range" style="margin-top: 20px">
+          <h2><label for "start-year">'. $year_range_label .'</label></h2>
+          <input type="number" id="start-year" name="start-year" placeholder="From" autocomplete="off" />
+          <input type="number" id="end-year" name="end-year" placeholder="To" autocomplete="off" />
+          <button class="button" type="submit" id="year-range-submit" name="year-range-submit">Refine</button>
         </div>
         <div class="clear"></div>
       </div>
@@ -105,6 +105,7 @@ class SolrSearchController extends ControllerBase {
             //'access_control' => $config->get("sub-query-field-name") . ":" . $config->get("sub-query-value"),
             'condition_fields' => json_encode($config->get("solr-condition-fields")),
             'facets_fields' => json_encode($config->get("solr-facets-fields")),
+            'year_field' => json_encode($config->get("solr-year-range")),
             'results_html' => json_encode($config->get("solr-results-html")),
             'output_template' => $config->get("output-template"),
             'search_instruction' => $config->get("search-instruction"),

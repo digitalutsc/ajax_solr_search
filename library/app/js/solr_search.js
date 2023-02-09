@@ -70,9 +70,9 @@
           }
 
           Manager.addWidget(
-            new AjaxSolr.DateRangeWidget({
-              id: "date-range",
-              target: "#date-range",
+            new AjaxSolr.YearRangeWidget({
+              id: "year-range",
+              target: "#year-range",
               field: "itm_field_edtf_date_created",
             })
           );
