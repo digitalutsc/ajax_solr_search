@@ -11,8 +11,8 @@
           var start_year = $($(self.target).find("input")[0]).val();
           var end_year = $($(self.target).find("input")[1]).val();
 
-          // if no end year given, use start year
-          if (!end_year) {
+          // if no end year or start year is after end year
+          if (!end_year || end_year < start_year) {
             end_year = start_year;
             $($(self.target).find("input")[1]).val(end_year);
           }
