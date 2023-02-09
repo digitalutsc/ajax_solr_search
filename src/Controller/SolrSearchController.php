@@ -105,7 +105,7 @@ class SolrSearchController extends ControllerBase {
             //'access_control' => $config->get("sub-query-field-name") . ":" . $config->get("sub-query-value"),
             'condition_fields' => json_encode($config->get("solr-condition-fields")),
             'facets_fields' => json_encode($config->get("solr-facets-fields")),
-            'year_field' => json_encode($config->get("solr-year-range")),
+            'year_field' => $config->get("solr-year-field"),
             'results_html' => json_encode($config->get("solr-results-html")),
             'output_template' => $config->get("output-template"),
             'search_instruction' => $config->get("search-instruction"),
