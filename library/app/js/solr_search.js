@@ -40,11 +40,6 @@
           }
         }));
 
-          // Search textfield
-          Manager.addWidget(new AjaxSolr.CurrentSearchWidget({
-            id: 'currentsearch',
-            target: '#selection'
-          }));
 
           var searchable_fields = drupalSettings.ajax_solr_search.searchable_fields.replace(/\s/g,'').split(',');
           Manager.addWidget(new AjaxSolr.AutocompleteWidget({
@@ -100,6 +95,12 @@
             }
           }
 
+          // Search textfield
+          Manager.addWidget(new AjaxSolr.CurrentSearchWidget({
+            id: 'currentsearch',
+            target: '#selection',
+            preset_fq: condition.join(" AND ")
+          }));
 
           Manager.init();
           Manager.store.addByValue('q', '*:*');
