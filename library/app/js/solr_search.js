@@ -70,14 +70,16 @@
           }
 
           /* Year Range */
-          var year_field_name = drupalSettings.ajax_solr_search.year_field.fname;
-          Manager.addWidget(
-            new AjaxSolr.YearRangeWidget({
-              id: "year-range",
-              target: "#year-range",
-              field: year_field_name,
-            })
-          );
+          var year_field = drupalSettings.ajax_solr_search.year_field;
+          if (year_field && year_field != '-1') {
+            Manager.addWidget(
+              new AjaxSolr.YearRangeWidget({
+                id: "year-range",
+                target: "#year-range",
+                field: year_field.fname,
+              })
+            );
+          }
 
           /* Condition */
           var condition_fields = JSON.parse(drupalSettings.ajax_solr_search.condition_fields);

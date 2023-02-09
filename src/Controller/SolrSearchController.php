@@ -24,8 +24,17 @@ class SolrSearchController extends ControllerBase {
       $facets_htmls .= '<div style="margin-top: 20px"><h2>' . $f['label'] . '</h2><div class="tagcloud" id="' . $f['fname'] . '"></div></div>';
     }
 
-    $year_range_label = $config->get("solr-year-field")['label'];
-
+    $year_range_field = $config->get("solr-year-field");
+    $year_range_htmls = '';
+    if ($year_range_field['fname'] && $year_range_field['fname'] != '-1') {
+      $year_range_htmls = '<div id="year-range" style="margin-top: 20px">
+        <h2><label for "start-year">'. $year_range_field['label'] .'</label></h2>
+        <input type="number" id="start-year" name="start-year" placeholder="From" autocomplete="off" />
+        <input type="number" id="end-year" name="end-year" placeholder="To" autocomplete="off" />
+        <button class="button" type="submit" id="year-range-submit" name="year-range-submit">Refine</button>
+      </div>';
+    }
+    
     $search_form = '<div id="wrap">
       <div class="right">
         <div id="result">
@@ -63,13 +72,7 @@ class SolrSearchController extends ControllerBase {
         <!-- Current Selection -->
          <ul id="selection"></ul>
 
-       ' . $facets_htmls . '
-        <div id="year-range" style="margin-top: 20px">
-          <h2><label for "start-year">'. $year_range_label .'</label></h2>
-          <input type="number" id="start-year" name="start-year" placeholder="From" autocomplete="off" />
-          <input type="number" id="end-year" name="end-year" placeholder="To" autocomplete="off" />
-          <button class="button" type="submit" id="year-range-submit" name="year-range-submit">Refine</button>
-        </div>
+       ' . $facets_htmls . $year_range_htmls . '
         <div class="clear"></div>
       </div>
       <div class="clear"></div>
