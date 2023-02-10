@@ -18,12 +18,7 @@ AjaxSolr.CurrentSearchWidget = AjaxSolr.AbstractWidget.extend({
 
     var fq = this.manager.store.values('fq');
     for (var i = 0, l = fq.length; i < l; i++) {
-      if (fq[i].match(/[\[\{]\S+ TO \S+[\]\}]/)) {
-        //var field = fq[i].match(/^\w+:/)[0];
-        //var value = fq[i].substr(field.length + 1, 10);
-        //links.push($('<a href="#"></a>').text('(x) ' + field + value).click(self.removeFacet(fq[i])));
-      }
-      else {
+      if (fq[i] !== this.preset_fq) { // don't display preset facets
         links.push($('<a href="#"></a>').text('(x) ' + fq[i]).click(self.removeFacet(fq[i])));
       }
     }
@@ -31,7 +26,12 @@ AjaxSolr.CurrentSearchWidget = AjaxSolr.AbstractWidget.extend({
     if (links.length > 1) {
       links.unshift($('<a href="#"></a>').text('remove all').click(function () {
         self.manager.store.get('q').val('*:*');
-        self.manager.store.remove('fq');
+        self.manager.store.remove('fq'); // removes all filter queries
+
+        if (self.preset_fq && self.preset_fq.length > 0) { // add preset filter queries
+          self.manager.store.addByValue('fq', self.preset_fq);
+        }
+
         self.doRequest();
         return false;
       }));

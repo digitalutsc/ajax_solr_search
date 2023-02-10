@@ -318,6 +318,36 @@ class AjaxSolrSearchConfigForm extends ConfigFormBase {
         ];
       }
 
+
+      $form['container']['year-range'] = [
+        '#type' => 'details',
+        '#title' => 'Year Range',
+        '#open' => TRUE,
+        '#prefix' => '<div id="year-range-fields-wrapper">',
+        '#suffix' => '</div>',
+        '#tree' => TRUE,
+      ];
+
+      $form['container']['year-range']['year-range-field-name'] = [
+        '#type' => 'select',
+        '#options' => $mappedFields,
+        '#title' => new FormattableMarkup('Solr Field Name', []),
+        '#prefix' => '<div class="form--inline clearfix"><div class="form-item">',
+        '#suffix' => '</div>',
+        '#default_value' => (!empty($config->get("solr-year-field")['fname'])) ? $config->get("solr-year-field")['fname'] : '',
+        '#attributes' => ['class' => ['selectpicker'], 'data-live-search' => ['true']],
+      ];
+      
+      $form['container']['year-range']['year-range-field-label'] = [
+        '#type' => 'textfield',
+        '#title' => new FormattableMarkup('Solr Field Label', []),
+        '#description' => $this->t('Leave it empty to hide the label'),
+        '#prefix' => '<div class="form-item">',
+        '#suffix' => '</div></div>',
+        '#default_value' => (!empty($config->get("solr-year-field")['label'])) ? $config->get("solr-year-field")['label'] : '',
+      ];
+
+
       $num_searchresults_fields = $form_state->get('num_searchresults_fields');
       if ($num_searchresults_fields === NULL) {
         if ($config->get("solr-facets-fields") !== NULL && count($config->get("solr-results-html")) > 0) {
@@ -522,6 +552,11 @@ class AjaxSolrSearchConfigForm extends ConfigFormBase {
 
     $configFactory->set("solr-facets-fields", $facets_fields);
 
+    $year_field = [
+      "fname" => $form_state->getValues()['year-range']['year-range-field-name'],
+      "label" => $form_state->getValues()['year-range']['year-range-field-label'],
+    ];
+    $configFactory->set("solr-year-field", $year_field);   
 
     $condition_fields = [];
     for ($i = 0; $i < $form_state->get('num_condition_fields'); $i++) {

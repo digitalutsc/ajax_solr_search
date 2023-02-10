@@ -40,11 +40,6 @@
           }
         }));
 
-          // Search textfield
-          Manager.addWidget(new AjaxSolr.CurrentSearchWidget({
-            id: 'currentsearch',
-            target: '#selection'
-          }));
 
           var searchable_fields = drupalSettings.ajax_solr_search.searchable_fields.replace(/\s/g,'').split(',');
           Manager.addWidget(new AjaxSolr.AutocompleteWidget({
@@ -69,6 +64,18 @@
             facets.push(facets_fields[i].fname);
           }
 
+          /* Year Range */
+          var year_field = drupalSettings.ajax_solr_search.year_field;
+          if (year_field && year_field != '-1') {
+            Manager.addWidget(
+              new AjaxSolr.YearRangeWidget({
+                id: "year-range",
+                target: "#year-range",
+                field: year_field.fname,
+              })
+            );
+          }
+
           /* Condition */
           var condition_fields = JSON.parse(drupalSettings.ajax_solr_search.condition_fields);
           var condition = [];
@@ -88,6 +95,12 @@
             }
           }
 
+          // Search textfield
+          Manager.addWidget(new AjaxSolr.CurrentSearchWidget({
+            id: 'currentsearch',
+            target: '#selection',
+            preset_fq: condition.join(" AND ")
+          }));
 
           Manager.init();
           Manager.store.addByValue('q', '*:*');

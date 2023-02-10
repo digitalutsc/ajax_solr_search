@@ -15,6 +15,7 @@ ajax_solr_search:
     library/app/widgets/CurrentSearchWidget.9.js: {}
     /libraries/ajax-solr/core/AbstractTextWidget.js: {}
     library/app/widgets/AutocompleteWidget.js: {}
+    library/app/widgets/YearRangeWidget.js: {}
   css:
     theme:
       https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css: {}
