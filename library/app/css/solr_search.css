@@ -81,6 +81,11 @@ div.pager {
   border: 1px solid rgba(0,0,0,0.1);
 }
 
+#sort {
+  display: flex;
+  justify-content: flex-end;
+}
+
 .tagcloud label {
   display: inline;
   padding-left: 5px;

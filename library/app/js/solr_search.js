@@ -28,18 +28,30 @@
             }
           }));
 
-        Manager.addWidget(new AjaxSolr.PagerWidget({
-          id: 'bottom-pager',
-          target: '#bottom-pager',
-          no_init_results: false,
-          prevLabel: '&lt;',
-          nextLabel: '&gt;',
-          innerWindow: 1,
-          renderHeader: function (perPage, offset, total) {
-            //$('#pager-header').html($('<p><strong></strong></p>').text('Displaying ' + Math.min(total, offset + 1) + ' - ' + Math.min(total, offset + perPage) + ' of ' + total));
-          }
-        }));
+          Manager.addWidget(new AjaxSolr.PagerWidget({
+            id: 'bottom-pager',
+            target: '#bottom-pager',
+            no_init_results: false,
+            prevLabel: '&lt;',
+            nextLabel: '&gt;',
+            innerWindow: 1,
+            renderHeader: function (perPage, offset, total) {
+              //$('#pager-header').html($('<p><strong></strong></p>').text('Displaying ' + Math.min(total, offset + 1) + ' - ' + Math.min(total, offset + perPage) + ' of ' + total));
+            }
+          }));
 
+          // TODO once config form is updated -> grab sort criteria from config
+          var sort_criteria = [
+            {
+              'label': 'Date Created',
+              'fname': 'itm_field_edtf_date_created'
+            }
+          ]
+          Manager.addWidget(new AjaxSolr.SortSelectWidget({
+            id: 'sort',
+            target: '#sort',
+            sort_criteria: sort_criteria
+          }))
 
           var searchable_fields = drupalSettings.ajax_solr_search.searchable_fields.replace(/\s/g,'').split(',');
           Manager.addWidget(new AjaxSolr.AutocompleteWidget({
