@@ -170,6 +170,21 @@ class AjaxSolrSearchConfigForm extends ConfigFormBase {
           $num_facets_fields = 1;
         }
       }
+
+      // Gather the number of names in the form already.
+      $num_sort_fields = $form_state->get('num_sort_fields');
+      // We have to ensure that there is at least one name field.f
+      if ($num_sort_fields === NULL) {
+        if ($config->get("solr-sort-fields") !== NULL && count($config->get("solr-sort-fields")) > 0) {
+          $num_sort_fields = count($config->get("solr-sort-fields"));
+          $form_state->set('num_sort_fields', $num_sort_fields);
+        }
+        else {
+          $form_state->set('num_sort_fields', 1);
+          $num_sort_fields = 1;
+        }
+      }
+
 /////////////////////////////////////////////////
 
       // Gather the number of names in the form already.
@@ -318,6 +333,7 @@ class AjaxSolrSearchConfigForm extends ConfigFormBase {
         ];
       }
 
+      ///////////////////////////////////////////
 
       $form['container']['year-range'] = [
         '#type' => 'details',
@@ -346,6 +362,64 @@ class AjaxSolrSearchConfigForm extends ConfigFormBase {
         '#suffix' => '</div></div>',
         '#default_value' => (!empty($config->get("solr-year-field")['label'])) ? $config->get("solr-year-field")['label'] : '',
       ];
+
+      /////////////////////////////////////////////////
+
+      $form['container']['sort-criteria'] = [
+        '#type' => 'details',
+        '#title' => 'Sort Criteria',
+        '#open' => TRUE,
+        '#prefix' => '<div id="sort-fields-wrapper">',
+        '#suffix' => '</div>',
+        '#tree' => TRUE,
+      ];
+
+      for ($i = 0; $i < $num_sort_fields; $i++) {
+        $form['container']['sort-criteria']['sort-field-name-' . $i] = [
+          '#type' => 'select',
+          '#options' => $mappedFields,
+          '#title' => new FormattableMarkup('Solr Field Name #' . ($i + 1), []),
+          '#prefix' => '<div class="form--inline clearfix"><div class="form-item">',
+          '#suffix' => '</div>',
+          '#default_value' => (!empty($config->get("solr-sort-fields")[$i]['fname'])) ? $config->get("solr-sort-fields")[$i]['fname'] : '',
+          '#attributes' => ['class' => ['selectpicker'], 'data-live-search' => ['true']],
+        ];
+        $form['container']['sort-criteria']['sort-field-label-' . $i] = [
+          '#type' => 'textfield',
+          '#title' => new FormattableMarkup('Solr Field Label #' . ($i + 1), []),
+          '#description' => $this->t('Leave it empty to hide the label'),
+          '#prefix' => '<div class="form-item">',
+          '#suffix' => '</div></div>',
+          '#default_value' => (!empty($config->get("solr-sort-fields")[$i]['label'])) ? $config->get("solr-sort-fields")[$i]['label'] : '',
+        ];
+      }
+
+      $form['container']['sort-criteria']['actions'] = [
+        '#type' => 'actions',
+      ];
+      $form['container']['sort-criteria']['actions']['add_sort_field'] = [
+        '#type' => 'submit',
+        '#name' => 'add_sort_field',
+        '#value' => $this->t('Add a field'),
+        '#submit' => ['::addOneSortField'],
+        '#ajax' => [
+          'callback' => '::addSortFieldCallback',
+          'wrapper' => 'sort-fields-wrapper',
+        ],
+      ];
+      // If there is more than one name, add the remove button.
+      if ($num_sort_fields > 1) {
+        $form['container']['sort-criteria']['actions']['remove_sort_field'] = [
+          '#type' => 'submit',
+          '#name' => 'remove_sort_field',
+          '#value' => $this->t('Remove'),
+          '#submit' => ['::removeSortFieldCallback'],
+          '#ajax' => [
+            'callback' => '::addSortFieldCallback',
+            'wrapper' => 'sort-fields-wrapper',
+          ],
+        ];
+      }
 
 
       $num_searchresults_fields = $form_state->get('num_searchresults_fields');
@@ -569,7 +643,15 @@ class AjaxSolrSearchConfigForm extends ConfigFormBase {
     }
     $configFactory->set("solr-condition-fields", $condition_fields);
 
-
+    $sort_fields = [];
+    for ($i = 0; $i < $form_state->get('num_sort_fields'); $i++) {
+      array_push($sort_fields,
+        [
+          "fname" => $form_state->getValues()['sort-criteria']['sort-field-name-' . $i],
+          'label' => $form_state->getValues()['sort-criteria']['sort-field-label-' . $i],
+        ]);
+    }
+    $configFactory->set("solr-sort-fields", $sort_fields);
 
 
     if (isset($form_state->getValues()['container']['search-results']['actions']['textfields_container']['rewrite-template'])) {
@@ -659,6 +741,41 @@ class AjaxSolrSearchConfigForm extends ConfigFormBase {
     if ($name_field > 1) {
       $remove_button = $name_field - 1;
       $form_state->set('num_facets_fields', $remove_button);
+    }
+    $form_state->setRebuild();
+  }
+
+  /**
+   * Callback for both ajax-enabled buttons.
+   *
+   * Selects and returns the fieldset with the names in it.
+   */
+  public function addSortFieldCallback(array &$form, FormStateInterface $form_state) {
+    return $form['container']['sort-criteria'];
+  }
+
+  /**
+   * Submit handler for the "add-one-more" button.
+   *
+   * Increments the max counter and causes a rebuild.
+   */
+  public function addOneSortField(array &$form, FormStateInterface $form_state) {
+    $name_field = $form_state->get('num_sort_fields');
+    $add_button = $name_field + 1;
+    $form_state->set('num_sort_fields', $add_button);
+    $form_state->setRebuild();
+  }
+
+  /**
+   * Submit handler for the "remove one" button.
+   *
+   * Decrements the max counter and causes a form rebuild.
+   */
+  public function removeSortFieldCallback(array &$form, FormStateInterface $form_state) {
+    $name_field = $form_state->get('num_sort_fields');
+    if ($name_field > 1) {
+      $remove_button = $name_field - 1;
+      $form_state->set('num_sort_fields', $remove_button);
     }
     $form_state->setRebuild();
   }
