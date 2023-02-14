@@ -44,12 +44,15 @@
           var sort_criteria = [
             {
               'label': 'Date Created',
-              'fname': 'itm_field_edtf_date_created'
-            }
+              'fname': 'its_field_edtf_date_created'
+            },            {
+              'label': 'Date Issued',
+              'fname': 'its_field_edtf_date_issued'
+            },
           ]
           Manager.addWidget(new AjaxSolr.SortSelectWidget({
-            id: 'sort',
-            target: '#sort',
+            id: 'sort-by',
+            target: '#sort-by',
             sort_criteria: sort_criteria
           }))
 
