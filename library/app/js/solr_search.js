@@ -40,16 +40,7 @@
             }
           }));
 
-          // TODO once config form is updated -> grab sort criteria from config
-          var sort_criteria = [
-            {
-              'label': 'Date Created',
-              'fname': 'its_field_edtf_date_created'
-            },            {
-              'label': 'Date Issued',
-              'fname': 'its_field_edtf_date_issued'
-            },
-          ]
+          var sort_criteria = JSON.parse(drupalSettings.ajax_solr_search.sort_fields);
           Manager.addWidget(new AjaxSolr.SortSelectWidget({
             id: 'sort-by',
             target: '#sort-by',

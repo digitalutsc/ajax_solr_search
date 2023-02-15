@@ -110,6 +110,7 @@ class SolrSearchController extends ControllerBase {
             'condition_fields' => json_encode($config->get("solr-condition-fields")),
             'facets_fields' => json_encode($config->get("solr-facets-fields")),
             'year_field' => $config->get("solr-year-field"),
+            'sort_fields' => json_encode($config->get("solr-sort-fields")),
             'results_html' => json_encode($config->get("solr-results-html")),
             'output_template' => $config->get("output-template"),
             'search_instruction' => $config->get("search-instruction"),
