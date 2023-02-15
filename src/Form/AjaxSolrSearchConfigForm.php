@@ -374,24 +374,51 @@ class AjaxSolrSearchConfigForm extends ConfigFormBase {
         '#tree' => TRUE,
       ];
 
+      $form['container']['sort-criteria']['table'] = [
+        '#type' => 'table',
+        '#title' => 'Sort Criteria Table',
+        '#header' => ['Solr Field Name', 'Solr Field Label', 'Weight'],
+        '#tabledrag' => [[
+          'action' => 'order',
+          'relationship' => 'sibling',
+          'group' => 'sort-weight',
+        ]]
+      ];
+      
       for ($i = 0; $i < $num_sort_fields; $i++) {
-        $form['container']['sort-criteria']['sort-field-name-' . $i] = [
+
+        $field = $config->get("solr-sort-fields")[$i];
+        
+        $form['container']['sort-criteria']['table'][$i]['#attributes']['class'][] = 'draggable';
+        $form['container']['sort-criteria']['table'][$i]['#weight'] = $i;
+
+        // field name column
+        $form['container']['sort-criteria']['table'][$i]['sort-field-name'] = [
           '#type' => 'select',
           '#options' => $mappedFields,
           '#title' => new FormattableMarkup('Solr Field Name #' . ($i + 1), []),
-          '#prefix' => '<div class="form--inline clearfix"><div class="form-item">',
-          '#suffix' => '</div>',
-          '#default_value' => (!empty($config->get("solr-sort-fields")[$i]['fname'])) ? $config->get("solr-sort-fields")[$i]['fname'] : '',
+          '#title_display' => 'invisible',
+          '#default_value' => (!empty($field['fname'])) ? $field['fname'] : '',
           '#attributes' => ['class' => ['selectpicker'], 'data-live-search' => ['true']],
         ];
-        $form['container']['sort-criteria']['sort-field-label-' . $i] = [
+
+        // field label column
+        $form['container']['sort-criteria']['table'][$i]['sort-field-label'] = [
           '#type' => 'textfield',
           '#title' => new FormattableMarkup('Solr Field Label #' . ($i + 1), []),
-          '#description' => $this->t('Leave it empty to hide the label'),
-          '#prefix' => '<div class="form-item">',
-          '#suffix' => '</div></div>',
-          '#default_value' => (!empty($config->get("solr-sort-fields")[$i]['label'])) ? $config->get("solr-sort-fields")[$i]['label'] : '',
+          '#title_display' => 'invisible',
+          '#default_value' => (!empty($field['label'])) ? $field['label'] : '',
         ];
+
+        // weight column
+        $form['container']['sort-criteria']['table'][$i]['weight'] = [
+          '#type' => 'weight',
+          '#title' => $this->t('Weight for @title', ['@title' => $field['label']]),
+          '#title_display' => 'invisible',
+          '#default_value' => $i,
+          '#attributes' => ['class' => ['sort-weight']],
+        ];
+
       }
 
       $form['container']['sort-criteria']['actions'] = [
@@ -644,11 +671,15 @@ class AjaxSolrSearchConfigForm extends ConfigFormBase {
     $configFactory->set("solr-condition-fields", $condition_fields);
 
     $sort_fields = [];
-    for ($i = 0; $i < $form_state->get('num_sort_fields'); $i++) {
+    foreach ($form_state->getValues()['sort-criteria']['table'] as $row) {
+      // don't save empty entries
+      if (empty($row['sort-field-name']) || $row['sort-field-name'] === '-1') {
+        continue;
+      }
       array_push($sort_fields,
         [
-          "fname" => $form_state->getValues()['sort-criteria']['sort-field-name-' . $i],
-          'label' => $form_state->getValues()['sort-criteria']['sort-field-label-' . $i],
+          "fname" => $row['sort-field-name'],
+          'label' => $row['sort-field-label'],
         ]);
     }
     $configFactory->set("solr-sort-fields", $sort_fields);
