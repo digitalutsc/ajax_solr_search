@@ -5,7 +5,7 @@
     },
 
     template: function (id, criteria) {
-      var options = ['<option value="" hidden>Sort By</option>'];
+      var options = ['<option value="" selected hidden>Sort By</option>'];
       
       // creates options for sorting field in ascending and descending order
       // NOTE: when sorting in ascending order, entries missing the field will be displayed first
@@ -16,10 +16,10 @@
         var desc = criteria[i]["fname"] + " desc";
         var label = criteria[i]["label"];
 
-        if (label === "Relevant") {
+        if (label === "Relevant" || label === "Relevance") {
           options.push(
-            this.formatOption(asc, "Least " + label),
-            this.formatOption(desc, "Most " + label)
+            this.formatOption(asc, "Least Relevant"),
+            this.formatOption(desc, "Most Relevant")
           );
         }
         else if (label === "Title") {

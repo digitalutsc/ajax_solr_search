@@ -889,10 +889,10 @@ class AjaxSolrSearchConfigForm extends ConfigFormBase {
     global $base_url;
 
     if (strpos($solr_url, $base_url) !== FALSE) {
-      $solr_url = $solr_url . '/fields?q=*:*&wt=csv&rows=0&facet';
+      $solr_url = $solr_url . '/fields?q=*:*&wt=csv&rows=0&facet&fl=*%20score';
     }
     else {
-      $solr_url = $solr_url . '/select?q=*:*&wt=csv&rows=0&facet';
+      $solr_url = $solr_url . '/select?q=*:*&wt=csv&rows=0&facet&fl=*%20score';
     }
 
     curl_setopt_array($curl, [

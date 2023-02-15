@@ -40,14 +40,7 @@
             }
           }));
 
-          // not sure how to add score option to config form since score isn't listed in the solr schema
-          // TODO: change how sorting by relevance is configured
-          var relevance = {
-            'fname': 'score',
-            'label': 'Relevant'
-          };
           var sort_criteria = JSON.parse(drupalSettings.ajax_solr_search.sort_fields);
-          sort_criteria.unshift(relevance);
           Manager.addWidget(new AjaxSolr.SortSelectWidget({
             id: 'sort-by',
             target: '#sort-by',
