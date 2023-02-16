@@ -413,13 +413,18 @@ class AjaxSolrSearchConfigForm extends ConfigFormBase {
         // weight column
         $form['container']['sort-criteria']['table'][$i]['weight'] = [
           '#type' => 'weight',
-          '#title' => $this->t('Weight for @title', ['@title' => $field['label']]),
+          '#title' => new FormattableMarkup('Weight for @title', ['@title' => $field['label']]),
           '#title_display' => 'invisible',
           '#default_value' => $i,
           '#attributes' => ['class' => ['sort-weight']],
         ];
 
       }
+
+      $form['container']['sort-criteria']['label'] = [
+        '#type' => 'label',
+        '#title' => $this->t('Note: Only single valued fields are accepted.')
+      ];
 
       $form['container']['sort-criteria']['actions'] = [
         '#type' => 'actions',
