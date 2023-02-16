@@ -19,7 +19,7 @@
         if (label === "Relevant" || label === "Relevance") {
           options.push(
             this.formatOption(desc, "Most Relevant"),
-            this.formatOption(asc, "Least Relevant")
+            // this.formatOption(asc, "Least Relevant")
           );
         }
         else if (label === "Title") {
