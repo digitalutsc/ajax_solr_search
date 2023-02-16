@@ -127,7 +127,6 @@
             'facet.date.end': '1987-10-20T00:00:00.000Z/DAY+1DAY',
             'facet.date.gap': '+1DAY',
             'json.nl': 'map',
-            'sort': 'score desc', // sort by most relevant
             'hl': true,
             'hl.fl': 'tm_X3b_en_description',//searchable_fields.join(" "),
             'hl.snippets': 4,

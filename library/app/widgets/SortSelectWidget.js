@@ -5,7 +5,7 @@
     },
 
     template: function (id, criteria) {
-      var options = ['<option value="" selected hidden>Sort By</option>'];
+      var options = [];
       
       // creates options for sorting field in ascending and descending order
       // NOTE: when sorting in ascending order, entries missing the field will be displayed first
@@ -18,8 +18,8 @@
 
         if (label === "Relevant" || label === "Relevance") {
           options.push(
-            this.formatOption(asc, "Least Relevant"),
-            this.formatOption(desc, "Most Relevant")
+            this.formatOption(desc, "Most Relevant"),
+            this.formatOption(asc, "Least Relevant")
           );
         }
         else if (label === "Title") {
@@ -30,14 +30,14 @@
         }
         else if (label === "Date Created") {
           options.push(
-            this.formatOption(asc, "Oldest"),
-            this.formatOption(desc, "Newest")
+            this.formatOption(desc, "Newest"),
+            this.formatOption(asc, "Oldest")
           );
         }
         else {
           options.push(
-            this.formatOption(asc, label + " ↑"),
-            this.formatOption(desc, label + " ↓")
+            this.formatOption(desc, label + " ↓"),
+            this.formatOption(asc, label + " ↑")
           );
         }
       }
@@ -56,17 +56,17 @@
       var self = this;
 
       $(this.target).empty();
-      $(this.target).append(self.template("sort-select", self.sort_criteria));
+      $(this.target).append(self.template("select", self.sort_criteria));
 
       // existing sort criteria selection -> update the select element text
       if (self.manager.store.values("sort").length > 0) {
-        $(this.target)
-          .find("#sort-select")
-          .val(self.manager.store.values("sort")[0]);
+        $(this.target).find("select").val(self.manager.store.values("sort")[0]);
+      } else {
+        self.updateSortQuery($(this.target).find("select").val());
       }
 
       $(this.target)
-        .find("#sort-select")
+        .find("select")
         .change(function () {
           self.updateSortQuery($(this).val());
         });
