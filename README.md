@@ -40,6 +40,8 @@ At Digital Scholarship Unit - UTSC Library, we have developed this module to sup
   * Select 4 mandatory Solr fields for Search Result rows: Thumbnail, title, description, and URL. Other options field can also be added.
 
 ![Config Screenshot!](docs/ajax_solr_config.png "Config Screenshot")
+
+__Year Range and Sort Criteria Configuration__
 ![Additional Config Screenshot!](docs/ajax_solr_additional_config.png "Additional Config Screenshot")
 
 ## Usage
