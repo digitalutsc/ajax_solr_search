@@ -42,6 +42,7 @@ At Digital Scholarship Unit - UTSC Library, we have developed this module to sup
 ![Config Screenshot!](docs/ajax_solr_config.png "Config Screenshot")
 
 __Year Range and Sort Criteria Configuration__
+
 ![Additional Config Screenshot!](docs/ajax_solr_additional_config.png "Additional Config Screenshot")
 
 ## Usage
