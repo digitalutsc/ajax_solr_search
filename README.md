@@ -37,6 +37,9 @@ At Digital Scholarship Unit - UTSC Library, we have developed this module to sup
   * Select Solr field(s) for Facets.
   * Select Solr field for Year Range filter.
   * Select Solr field(s) for Sort Criteria.
+    * When sorting ascending on a field, results without the field are displayed first. This can be configured by adding `sortMissingLast=true` to the field in the Solr schema. This property is false by default.
+    * Note that sorting on Solr `string` fields is __case-sensitive__. Case-insensitive sorting can be done by modifying the Solr schema.
+    * Sorting on multivalued fields is not supported.
   * Select 4 mandatory Solr fields for Search Result rows: Thumbnail, title, description, and URL. Other options field can also be added.
 
 ![Config Screenshot!](docs/ajax_solr_config.png "Config Screenshot")
