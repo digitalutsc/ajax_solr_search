@@ -5,6 +5,11 @@
     },
 
     template: function (id, criteria) {
+
+      if (criteria.length == 0) {
+        return;
+      }
+      
       var options = [];
       
       // creates options for sorting field in ascending and descending order
