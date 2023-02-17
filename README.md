@@ -34,10 +34,13 @@ At Digital Scholarship Unit - UTSC Library, we have developed this module to sup
 * Visit `/admin/config/search/ajax_solr`, setting up with:
   * The URL for Search Results Page, default is `/federated-search`.
   * Select Solr field(s) to search against.
-  * Select Solr field(s) for Facets
+  * Select Solr field(s) for Facets.
+  * Select Solr field for Year Range filter.
+  * Select Solr field(s) for Sort Criteria.
   * Select 4 mandatory Solr fields for Search Result rows: Thumbnail, title, description, and URL. Other options field can also be added.
 
 ![Config Screenshot!](docs/ajax_solr_config.png "Config Screenshot")
+![Additional Config Screenshot!](docs/ajax_solr_additional_config.png "Additional Config Screenshot")
 
 ## Usage
 * Visit the search page at `/federated-search`.

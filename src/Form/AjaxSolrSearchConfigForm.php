@@ -423,7 +423,7 @@ class AjaxSolrSearchConfigForm extends ConfigFormBase {
 
       $form['container']['sort-criteria']['label'] = [
         '#type' => 'label',
-        '#title' => $this->t('Note: Only single valued fields are accepted.')
+        '#title' => $this->t('Note: Multivalued fields cannot be used for sorting.')
       ];
 
       $form['container']['sort-criteria']['actions'] = [
