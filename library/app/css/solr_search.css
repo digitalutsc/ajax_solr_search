@@ -81,6 +81,15 @@ div.pager {
   border: 1px solid rgba(0,0,0,0.1);
 }
 
+#sort-by {
+  display: flex;
+  justify-content: flex-end;
+}
+
+select:required:invalid {
+  color: gray;
+}
+
 .tagcloud label {
   display: inline;
   padding-left: 5px;
