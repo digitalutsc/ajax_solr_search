@@ -261,7 +261,6 @@ class AjaxSolrSearchConfigForm extends ConfigFormBase {
 /////////////////////////////////////////////////
 
 
-
       $form['container']['facets'] = [
         '#type' => 'details',
         '#title' => 'Facets',
@@ -271,23 +270,46 @@ class AjaxSolrSearchConfigForm extends ConfigFormBase {
         '#tree' => TRUE,
       ];
 
+      $form['container']['facets']['table'] = [
+        '#type' => 'table',
+        '#title' => 'Facet Table',
+        '#header' => ['Solr Field Name', 'Solr Field Label', 'Weight'],
+        '#tabledrag' => [[
+          'action' => 'order',
+          'relationship' => 'sibling',
+          'group' => 'facet-weight',
+        ]]
+      ];
+
       for ($i = 0; $i < $num_facets_fields; $i++) {
-        $form['container']['facets']['facets-field-name-' . $i] = [
+        $field = $config->get("solr-facets-fields")[$i];
+
+        $form['container']['facets']['table'][$i]['#attributes']['class'][] = 'draggable';
+        $form['container']['facets']['table'][$i]['#weight'] = $i;
+
+        $form['container']['facets']['table'][$i]['facets-field-name'] = [
           '#type' => 'select',
           '#options' => $mappedFields,
           '#title' => new FormattableMarkup('Solr Field Name #' . ($i + 1), []),
-          '#prefix' => '<div class="form--inline clearfix"><div class="form-item">',
-          '#suffix' => '</div>',
-          '#default_value' => (!empty($config->get("solr-facets-fields")[$i]['fname'])) ? $config->get("solr-facets-fields")[$i]['fname'] : '',
+          '#title_display' => 'invisible',
+          '#default_value' => (!empty($field['fname'])) ? $field['fname'] : '',
           '#attributes' => ['class' => ['selectpicker'], 'data-live-search' => ['true']],
         ];
-        $form['container']['facets']['facets-field-label-' . $i] = [
+        $form['container']['facets']['table'][$i]['facets-field-label'] = [
           '#type' => 'textfield',
           '#title' => new FormattableMarkup('Solr Field Label #' . ($i + 1), []),
           '#description' => $this->t('Leave it empty to hide the label'),
-          '#prefix' => '<div class="form-item">',
-          '#suffix' => '</div></div>',
-          '#default_value' => (!empty($config->get("solr-facets-fields")[$i]['label'])) ? $config->get("solr-facets-fields")[$i]['label'] : '',
+          '#title_display' => 'invisible',
+          '#default_value' => (!empty($field['label'])) ? $field['label'] : '',
+        ];
+
+        // weight column
+        $form['container']['facets']['table'][$i]['weight'] = [
+          '#type' => 'weight',
+          '#title' => new FormattableMarkup('Weight for @title', ['@title' => $field['label']]),
+          '#title_display' => 'invisible',
+          '#default_value' => $i,
+          '#attributes' => ['class' => ['facet-weight']],
         ];
       }
 
@@ -538,19 +560,22 @@ class AjaxSolrSearchConfigForm extends ConfigFormBase {
     $configFactory->set("solr-searchable-fields", $searchable_fields);
 
     $facets_fields = [];
-    for ($i = 0; $i < $form_state->get('num_facets_fields'); $i++) {
+    foreach ($form_state->getValues()['facets']['table'] as $row) {
+      if (empty($row['facets-field-name']) || $row['facets-field-name'] === '-1') {
+        continue;
+      }
+
       array_push($facets_fields,
         [
-          "fname" => $form_state->getValues()['facets']['facets-field-name-' . $i],
-          'label' => $form_state->getValues()['facets']['facets-field-label-' . $i],
+          "fname" => $row['facets-field-name'],
+          'label' => $row['facets-field-label'],
         ]);
     }
+    $configFactory->set("solr-facets-fields", $facets_fields);
 
     // subquery for access control
     $configFactory->set("sub-query-field-name", $form_state->getValues()['condition']['sub-query-field-name']);
     $configFactory->set("sub-query-value", $form_state->getValues()['condition']['sub-query-value']);
-
-    $configFactory->set("solr-facets-fields", $facets_fields);
 
     $year_field = [
       "fname" => $form_state->getValues()['year-range']['year-range-field-name'],
