@@ -28,18 +28,24 @@
             }
           }));
 
-        Manager.addWidget(new AjaxSolr.PagerWidget({
-          id: 'bottom-pager',
-          target: '#bottom-pager',
-          no_init_results: false,
-          prevLabel: '&lt;',
-          nextLabel: '&gt;',
-          innerWindow: 1,
-          renderHeader: function (perPage, offset, total) {
-            //$('#pager-header').html($('<p><strong></strong></p>').text('Displaying ' + Math.min(total, offset + 1) + ' - ' + Math.min(total, offset + perPage) + ' of ' + total));
-          }
-        }));
+          Manager.addWidget(new AjaxSolr.PagerWidget({
+            id: 'bottom-pager',
+            target: '#bottom-pager',
+            no_init_results: false,
+            prevLabel: '&lt;',
+            nextLabel: '&gt;',
+            innerWindow: 1,
+            renderHeader: function (perPage, offset, total) {
+              //$('#pager-header').html($('<p><strong></strong></p>').text('Displaying ' + Math.min(total, offset + 1) + ' - ' + Math.min(total, offset + perPage) + ' of ' + total));
+            }
+          }));
 
+          var sort_criteria = JSON.parse(drupalSettings.ajax_solr_search.sort_fields);
+          Manager.addWidget(new AjaxSolr.SortSelectWidget({
+            id: 'sort-by',
+            target: '#sort-by',
+            sort_criteria: sort_criteria
+          }))
 
           var searchable_fields = drupalSettings.ajax_solr_search.searchable_fields.replace(/\s/g,'').split(',');
           Manager.addWidget(new AjaxSolr.AutocompleteWidget({
